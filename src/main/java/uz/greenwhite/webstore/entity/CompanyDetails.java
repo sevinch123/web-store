@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "company_details")
+@Table
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,7 +12,6 @@ public class CompanyDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "company_details_id", nullable = false)
     private Long companyDetailsId;
 
     private String companyName;
