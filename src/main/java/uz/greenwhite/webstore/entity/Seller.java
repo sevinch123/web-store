@@ -15,6 +15,8 @@ public class Seller {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "seller_id")
+    private Long sellerId;
+
     private String firstName;
 
     private String lastName;
