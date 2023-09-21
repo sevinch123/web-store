@@ -24,5 +24,5 @@ public class Seller {
     private String password;
 
     private Character status;
-
+//alo
 }
