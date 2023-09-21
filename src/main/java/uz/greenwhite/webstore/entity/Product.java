@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "product")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,13 +13,14 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long productId;
-    @JoinColumn(name = "category_id")
-    private long categoryId;
+    private Long productId;
+
+    @ManyToOne
+    private Category category;
 
     private String description;
 
-    private double price;
+    private Long price;
 
     private int quantity;
 
