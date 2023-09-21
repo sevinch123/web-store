@@ -1,4 +1,4 @@
-package uz.greenwhite.webstore.Entity;
+package uz.greenwhite.webstore.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
