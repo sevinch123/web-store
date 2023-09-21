@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductPhoto {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long product_photo_id;
