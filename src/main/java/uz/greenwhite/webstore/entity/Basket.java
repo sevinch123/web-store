@@ -23,8 +23,7 @@ public class Basket {
     private String userToken;
 
     @ManyToOne 
-    @JoinColumn(name="product_id")
-    private Product name;
+    private Category name;
     
     private String quantity;
 
