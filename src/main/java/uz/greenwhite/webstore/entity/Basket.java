@@ -15,6 +15,7 @@ import jakarta.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Basket {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long  basketId;
@@ -24,5 +25,7 @@ public class Basket {
     @ManyToOne 
     @JoinColumn(name="product_id")
     private Product name;
+    
     private String quantity;
+
 }
