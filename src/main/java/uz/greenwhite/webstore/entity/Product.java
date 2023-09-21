@@ -11,13 +11,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long productId;
-
-    private String name;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private long categoryId;
 
@@ -28,4 +25,5 @@ public class Product {
     private int quantity;
 
     private int times_sold;
+
 }
