@@ -16,6 +16,7 @@ public class Product {
     private Long productId;
 
     @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
 
     private String description;

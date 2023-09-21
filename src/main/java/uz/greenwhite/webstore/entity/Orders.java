@@ -30,6 +30,7 @@ public class Orders {
     private OrderStatus status;
 
     @ManyToOne
+    @JoinColumn(name = "modefiedBy")
     private Seller modifiedBy;
 
 }
