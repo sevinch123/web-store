@@ -23,7 +23,7 @@ public class Basket {
     private String userToken;
 
     @ManyToOne 
-    private Category name;
+    private Product name;
     
     private String quantity;
 
