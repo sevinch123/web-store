@@ -3,29 +3,29 @@ package uz.greenwhite.webstore.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import jakarta.persistence.Id;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Seller {
+public class Basket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long sellerId;
+    private Long  basketId;
 
-    private String firstName;
+    private String userToken;
 
-    private String lastName;
+    @ManyToOne 
+    @JoinColumn(name="product_id")
+    private Product product;
+    
+    private String quantity;
 
-    private String login;
-
-    private String password;
-
-    private Character status;
-
-}git
+}
