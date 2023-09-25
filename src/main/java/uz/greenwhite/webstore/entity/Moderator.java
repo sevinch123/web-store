@@ -12,20 +12,15 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Seller {
+public class Moderator {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long sellerId;
-
-    private String firstName;
-
-    private String lastName;
+    private Long moderatorId;
 
     private String login;
 
     private String password;
-
-    private Character status;
-
 }
+
+
