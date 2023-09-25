@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import uz.greenwhite.webstore.enums.UserRole;
 
 @Entity
 @Data
@@ -21,6 +22,8 @@ public class Moderator {
     private String login;
 
     private String password;
+
+    private UserRole role = UserRole.MODERATOR;
 }
 
 
