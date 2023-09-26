@@ -36,7 +36,7 @@ public class CategoryController {
     @GetMapping("/edit")
     public String editPage(Model model, @RequestParam("id") Long id) {
         model.addAttribute("category", service.getById(id));
-        return "admin/data/category/edit";
+        return "admin/data/category/add";
     }
 
     @PostMapping("/edit")
