@@ -1,22 +1,21 @@
 package uz.greenwhite.webstore.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import uz.greenwhite.webstore.enums.UserRole;
+import uz.greenwhite.webstore.enums.UserStatus;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Seller {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long sellerId;
+    private Long userId;
 
     private String firstName;
 
@@ -26,6 +25,9 @@ public class Seller {
 
     private String password;
 
-    private Character status;
+    @Enumerated (EnumType.ORDINAL)
+    private UserRole role;
 
+    @Enumerated (EnumType.ORDINAL)
+    private UserStatus status;
 }
