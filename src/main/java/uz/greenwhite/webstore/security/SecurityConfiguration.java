@@ -58,8 +58,8 @@ public class SecurityConfiguration {
                                     response.sendRedirect("moderator/dashboard");
                                 }
                             }
-                            else if (authentication.getPrincipal() instanceof User seller) {
-                                if (seller.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_" + UserRole.SELLER))) {
+                            else if (authentication.getPrincipal() instanceof User user) {
+                                if (user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_" + UserRole.SELLER))) {
                                     response.sendRedirect("seller/dashboard");
                                 }
                             }
