@@ -14,21 +14,42 @@
     <aside th:replace="~{admin/commons::aside}"></aside>
 
     <!-- Content Wrapper. Contains page content -->
-    <div class="container-fluid">
-        <h1 class="mt-5">Add Category</h1>
+    <div class="content-wrapper">
+        <div class="container mt-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Add new category</h4>
+                    <hr>
 
-        <form>
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" class="form-control" id="name" name="name" required>
+
+                    <form method="post"
+                          enctype="multipart/form-data"
+                          th:action="${(category.categoryId==null) ? '/admin/data/category/add' : '/admin/data/category/edit'}"
+                          th:object="${category}">
+                        <div class="form-group" th:if="${category.categoryId} != null">
+                            <label for="id">ID</label>
+                            <input type="text" readonly th:field="*{categoryId}" name="id" id="id" class="form-control"
+                                   placeholder="ID ..." aria-describedby="id">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" th:field="*{categoryName}" name="name" id="name" required
+                                   class="form-control"
+                                   placeholder="Name ..." aria-describedby="name">
+                            <small id="title_" class="text-muted">Enter name</small>
+                        </div>
+
+
+
+                        <a class="btn btn-secondary" th:href="@{/admin/data/category}" role="button">Go
+                            back</a>
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </form>
+                </div>
             </div>
-
-            <button type="button" class="btn btn-success" id="saveButton">Save</button>
-
-
-
-        </form>
+        </div>
     </div>
+
 
 
     <!-- Control Sidebar -->
