@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class ClientController {
-    @GetMapping()
+    @GetMapping("/")
     public String indexController() {
         return "index";
     }
@@ -29,4 +29,5 @@ public class ClientController {
     public String checkoutController() {
         return "checkout";
     }
+
 }
