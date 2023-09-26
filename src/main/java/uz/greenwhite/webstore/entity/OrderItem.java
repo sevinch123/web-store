@@ -13,7 +13,7 @@ public class OrderItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long order_itemId;
+    private Long orderItemId;
 
     private Integer quantity;
 
