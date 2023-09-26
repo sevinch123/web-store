@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import uz.greenwhite.webstore.entity.Category;
+import uz.greenwhite.webstore.enums.CategoryStatus;
 import uz.greenwhite.webstore.repository.CategoryRepository;
 
 @Service
@@ -23,7 +24,7 @@ public class CategoryService {
     public Category save(Category category) {
         if(category.getCategoryId() != null)
             throw new RuntimeException("Id should be a null");
-
+        if(category.getStatus()==null) category.setStatus(CategoryStatus.ACTIVE);;
         return repository.save(category);
     }
 
