@@ -13,8 +13,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import uz.greenwhite.webstore.entity.Moderator;
-import uz.greenwhite.webstore.entity.Seller;
 import uz.greenwhite.webstore.enums.UserRole;
 
 @Configuration
@@ -60,11 +58,11 @@ public class SecurityConfiguration {
                                     response.sendRedirect("moderator/dashboard");
                                 }
                             }
-//                            else if (authentication.getPrincipal() instanceof Seller seller) {
-//                                if (seller.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_" + UserRole.SELLER))) {
-//                                    response.sendRedirect("seller/dashboard");
-//                                }
-//                            }
+                            else if (authentication.getPrincipal() instanceof User seller) {
+                                if (seller.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_" + UserRole.SELLER))) {
+                                    response.sendRedirect("seller/dashboard");
+                                }
+                            }
                             else
                                 response.sendRedirect("/");
                         })

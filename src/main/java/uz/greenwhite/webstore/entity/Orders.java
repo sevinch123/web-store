@@ -31,6 +31,6 @@ public class Orders {
 
     @ManyToOne
     @JoinColumn(name = "modefiedBy")
-    private Seller modifiedBy;
+    private User modifiedBy;
 
 }
