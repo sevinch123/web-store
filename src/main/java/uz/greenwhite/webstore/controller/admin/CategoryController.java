@@ -10,12 +10,12 @@ import uz.greenwhite.webstore.service.CategoryService;
 
 @Controller
 @AllArgsConstructor
-@RequestMapping("admin/data/category")
+@RequestMapping("/admin/data/category")
 public class CategoryController {
 
     private final CategoryService service;
 
-    @GetMapping
+    @GetMapping()
     public String listPage(Model model, Pageable pageable) {
         model.addAttribute("categories", service.getAll(pageable));
         return "admin/data/category/list";
