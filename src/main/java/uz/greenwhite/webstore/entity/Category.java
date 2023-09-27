@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import uz.greenwhite.webstore.enums.CategoryStatus;
 
 @Entity
 @Data
@@ -18,7 +17,6 @@ public class Category {
 
     private String categoryName;
 
-    @Enumerated(EnumType.ORDINAL)
-    private CategoryStatus status;
+    private Boolean isActive;
 
 }
