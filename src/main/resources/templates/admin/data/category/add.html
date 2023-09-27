@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
-      ><!--     yengi kiritilgan -->
+><!--     yengi kiritilgan -->
 <head th:replace="~{admin/commons::head}"></head>
 
 <body class="hold-transition sidebar-mini">
@@ -15,13 +15,12 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <div class="container mt-4">
+        <div class="container pt-4">
             <div class="card">
-                <div class="card-body">
+                <div class="card-header">
                     <h4 class="card-title">Add new category</h4>
-                    <hr>
-
-
+                </div>
+                <div class="card-body">
                     <form method="post"
                           enctype="multipart/form-data"
                           th:action="${(category.categoryId==null) ? '/admin/data/category/add' : '/admin/data/category/edit'}"
@@ -30,6 +29,7 @@
                             <label for="id">ID</label>
                             <input type="text" readonly th:field="*{categoryId}" name="id" id="id" class="form-control"
                                    placeholder="ID ..." aria-describedby="id">
+
                         </div>
                         <div class="form-group">
                             <label for="name">Name</label>
@@ -37,10 +37,19 @@
                                    class="form-control"
                                    placeholder="Name ..." aria-describedby="name">
                             <small id="title_" class="text-muted">Enter name</small>
+
+                            <div class="form-group" data-style="btn-primary" data-width="fit"
+                                 th:if="${category.categoryId} != null">
+                                <select th:field="*{isActive}" class="form-control"
+                                        aria-label="Default select example">
+                                    <option th:value="${category.isActive}" selected
+                                            th:text="${category.isActive} ? ACTIVE : PASSIVE"></option>
+                                    <option th:value="${!category.isActive}"
+                                            th:text="${category.isActive} ? PASSIVE  : ACTIVE"></option>
+                                </select>
+                            </div>
+
                         </div>
-
-
-
                         <a class="btn btn-secondary" th:href="@{/admin/data/category}" role="button">Go
                             back</a>
                         <button type="submit" class="btn btn-success">Save</button>

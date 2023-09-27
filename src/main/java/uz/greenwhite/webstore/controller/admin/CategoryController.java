@@ -18,7 +18,7 @@ public class CategoryController {
     @GetMapping()
     public String listPage(Model model, Pageable pageable) {
         model.addAttribute("categories", service.getAll(pageable));
-        return "admin/data/category/list";
+        return "/admin/data/category/list";
     }
 
     @GetMapping("/add")
@@ -36,18 +36,18 @@ public class CategoryController {
     @GetMapping("/edit")
     public String editPage(Model model, @RequestParam("id") Long id) {
         model.addAttribute("category", service.getById(id));
-        return "admin/data/category/add";
+        return "/admin/data/category/add";
     }
 
     @PostMapping("/edit")
     public String editCategory(@ModelAttribute Category category) {
         service.update(category);
-        return "redirect:admin/data/category";
+        return "redirect:/admin/data/category";
     }
 
     @GetMapping("delete/{id}")
     public String deleteCategory(@PathVariable Long id) {
         service.deleteById(id);
-        return "redirect:admin/data/category";
+        return "redirect:/admin/data/category";
     }
 }
