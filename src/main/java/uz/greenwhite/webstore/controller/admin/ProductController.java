@@ -27,13 +27,4 @@ public class ProductController {
         return "/admin/data/product/add";
     }
 
-    /*
-    id
-    name
-    category id
-    price
-    description
-    photo
-    quantity
-     */
 }
