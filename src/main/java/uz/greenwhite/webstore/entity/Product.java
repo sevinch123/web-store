@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.w3c.dom.Text;
+
+import java.sql.Blob;
 
 @Entity
 @Data
@@ -15,16 +18,20 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
 
+    private String name;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
-    private String description;
-
     private Long price;
 
-    private int quantity;
+    private String Photo;
 
-    private int times_sold;
+    private Integer quantity;
+
+    private Boolean isActive;
+
+    private String description;
 
 }
