@@ -71,7 +71,7 @@ public class ProductController {
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable long id) {
         try {
-            service.delete(id);
+            service.deleteById(id);
         } catch (RuntimeException e) {
             Product product = service.getById(id);
             product.setIsActive(false);

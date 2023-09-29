@@ -33,7 +33,7 @@ public class ProductService {
         return repository.save(product);
     }
 
-    public void delete(Long ID) {
+    public void deleteById(Long ID) {
         repository.deleteById(ID);
     }
 
