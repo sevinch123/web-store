@@ -29,7 +29,7 @@ private final CategoryService categoryService;
 
     @GetMapping("/add")
     public String addPage(Model model, Pageable pageable) {
-        model.addAttribute("category", new Category());
+        model.addAttribute("product", new Product());
         model.addAttribute("categories", categoryService.getAll(pageable));
         return "/admin/data/product/add";
     }

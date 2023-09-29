@@ -13,9 +13,9 @@
 
     <!-- Content Wrapper. Contains page content -->
     <!-- /.content-wrapper -->
-    <div class="content-wrapper">
+    <div class="content-wrapper py-2">
         <div class="container">
-            <h3 class="text-center mt-2">Category List</h3>
+            <h3 class="text-center">Category List</h3>
             <a name="" class="btn btn-primary" th:href="@{/admin/data/category/add}" role="button">Add category</a>
             <table class="table table-bordered table-inverse mt-3">
                 <thead class="thead-inverse">
@@ -75,12 +75,10 @@
             </table>
         </div>
     </div>
-
+    <!-- Main Footer -->
+    <footer th:replace="~{admin/commons::footer}"></footer>
 </div>
 
-
-<!-- Main Footer -->
-<footer th:replace="~{admin/commons::footer}"></footer>
 </div>
 <th:block th:replace="~{admin/commons::scripts}"></th:block>
 </body>

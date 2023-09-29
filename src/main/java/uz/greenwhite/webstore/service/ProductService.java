@@ -28,6 +28,8 @@ public class ProductService {
     }
 
     public void save(Product product) {
+        if(product.getIsActive() == null)
+            product.setIsActive(true);
         repository.save(product);
     }
 

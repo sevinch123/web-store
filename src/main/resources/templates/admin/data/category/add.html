@@ -15,7 +15,8 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <div class="container pt-4">
+        <div class="container py-2">
+            <h3 class="text-center my-2">Category Add</h3>
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">Add new category</h4>
@@ -36,10 +37,7 @@
 
                             <input type="text" th:field="*{categoryName}" name="name" id="name" required
                                    class="form-control"
-                                   placeholder="Name ..." aria-describedby="name">
-
-                            <small id="title_" class="text-muted">Enter name</small>
-
+                                   placeholder="Enter name" aria-describedby="name">
                             <div class="form-group" data-style="btn-primary" data-width="fit"
                                  th:if="${category.categoryId} != null">
                                 <select th:field="*{isActive}" class="form-control"
