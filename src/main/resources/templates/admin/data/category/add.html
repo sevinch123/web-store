@@ -6,61 +6,62 @@
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
 
-    <!-- Navbar -->
-    <div th:replace="~{admin/commons::header}"></div>
-    <!-- /.navbar -->
+	<!-- Navbar -->
+	<div th:replace="~{admin/commons::header}"></div>
+	<!-- /.navbar -->
 
-    <!-- Main Sidebar Container -->
-    <aside th:replace="~{admin/commons::aside}"></aside>
+	<!-- Main Sidebar Container -->
+	<aside th:replace="~{admin/commons::aside}"></aside>
 
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <div class="container py-2">
-            <h3 class="text-center my-2">Category Add</h3>
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Add new category</h4>
-                </div>
-                <div class="card-body">
-                    <form method="post"
-                          enctype="multipart/form-data"
-                          th:action="${(category.categoryId==null) ? '/admin/data/category/add' : '/admin/data/category/edit'}"
-                          th:object="${category}">
-                        <div class="form-group" th:if="${category.categoryId} != null">
-                            <label for="id">ID</label>
-                            <input type="text" readonly th:field="*{categoryId}" name="id" id="id" class="form-control"
-                                   placeholder="ID ..." aria-describedby="id">
+	<!-- Content Wrapper. Contains page content -->
+	<div class="content-wrapper">
+		<div class="container py-2">
+			<h3 class="text-center my-2">Category Add</h3>
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">Add new category</h4>
+				</div>
+				<div class="card-body">
+					<form method="post"
+					      enctype="multipart/form-data"
+					      th:action="${(category.categoryId==null) ? '/admin/data/category/add' : '/admin/data/category/edit'}"
+					      th:object="${category}">
+						<div class="form-group" th:if="${category.categoryId} != null">
+							<label for="id">ID</label>
+							<input type="text" readonly th:field="*{categoryId}" name="id" id="id" class="form-control"
+							       placeholder="ID ..." aria-describedby="id">
 
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Name</label>
+						</div>
+						<div class="form-group">
+							<label for="name">Name</label>
 
-                            <input type="text" th:field="*{categoryName}" name="name" id="name" required
-                                   class="form-control"
-                                   placeholder="Enter name" aria-describedby="name">
-                            <div class="form-group" data-style="btn-primary" data-width="fit"
-                                 th:if="${category.categoryId} != null">
-                                <select th:field="*{isActive}" class="form-control"
-                                        aria-label="Default select example">
-                                    <option th:value="${category.isActive}" selected
-                                            th:text="${category.isActive} ? ACTIVE : PASSIVE"></option>
-                                    <option th:value="${!category.isActive}"
-                                            th:text="${category.isActive} ? PASSIVE  : ACTIVE"></option>
-                                </select>
-                            </div>
+							<input type="text" th:field="*{categoryName}" name="name" id="name" required
+							       class="form-control"
+							       placeholder="Enter name" aria-describedby="name">
+						</div>
+						<div class="form-group" data-style="btn-primary" data-width="fit"
+						     th:if="${category.categoryId} != null">
+							<label for="name">Status</label>
 
-                        </div>
-                        <a class="btn btn-secondary" th:href="@{/admin/data/category}" role="button">Go
-                            back</a>
-                        <button type="submit" class="btn btn-success">Save</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+							<select th:field="*{isActive}" class="form-control"
+							        aria-label="Default select example">
+								<option th:value="${category.isActive}" selected
+								        th:text="${category.isActive} ? ACTIVE : PASSIVE"></option>
+								<option th:value="${!category.isActive}"
+								        th:text="${category.isActive} ? PASSIVE  : ACTIVE"></option>
+							</select>
+						</div>
+						<a class="btn btn-secondary" th:href="@{/admin/data/category}" role="button">Go
+							back</a>
+						<button type="submit" class="btn btn-success">Save</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <!-- Main Footer -->
-    <footer th:replace="~{admin/commons::footer}"></footer>
+	<!-- Main Footer -->
+	<footer th:replace="~{admin/commons::footer}"></footer>
 </div>
 
 

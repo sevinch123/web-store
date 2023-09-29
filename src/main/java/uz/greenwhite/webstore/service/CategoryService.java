@@ -23,7 +23,9 @@ public class CategoryService {
     public Category save(Category category) {
         if(category.getCategoryId() != null)
             throw new RuntimeException("Id should be a null");
-        if(category.getIsActive()==null) category.setIsActive(true);;
+
+        if(category.getIsActive() == null) category.setIsActive(true);
+
         return repository.save(category);
     }
 
