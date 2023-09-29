@@ -66,11 +66,23 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="name">Quantity</label>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="name">Add quantity</label>
 
-                        <input type="number" th:field="*{quantity}" name="quantity" id="quantity" required
-                               class="form-control"
-                               placeholder="Enter quantity" aria-describedby="name">
+                                <input type="number" th:field="*{quantity}" name="quantity" id="quantity" required
+                                       class="form-control"
+                                       placeholder="Add quantity" aria-describedby="name">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="remove">Remove quantity</label>
+
+                                <input type="number" th:field="*{quantity}" name="quantity" id="remove" required
+                                       class="form-control"
+                                       placeholder="Remove quantity" aria-describedby="name">
+                            </div>
+
+                        </div>
                     </div>
 
                     <div class="form-group" data-style="btn-primary" data-width="fit"
@@ -114,6 +126,9 @@
     $(document).ready(function () {
         $('#description').summernote();
     });
+
+
+
 
 
 </script>
