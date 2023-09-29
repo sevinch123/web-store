@@ -24,11 +24,9 @@
           <th>ID</th>
           <th>NAME</th>
           <!--                    <th>CATEGORY</th>-->
-          <th>CATEGORY</th>
           <th>PRICE</th>
           <!--                    <th>PHOTO</th>-->
           <th>QUANTITY</th>
-          <th>PICTURE</th>
         </tr>
         </thead>
         <tbody>
@@ -36,12 +34,8 @@
           <td scope="row" th:text="${product.productId}"></td>
           <td th:text="${product.name}"></td>
           <!--                    <td th:text="${product.category}"></td>-->
-          <td th:text="${product.category.categoryName}"></td>
           <td th:text="${product.price}"></td>
           <td th:text="${product.quantity}"></td>
-          <td>
-            <img  th:src="@{|/admin/data/product/image/${product.productId}|}" height="50px" width="auto" alt="rasm"/>
-          </td>
           <td>
             <a name="" id="" class="btn btn-primary" href="#"
                th:href="@{/admin/data/product/edit(id=${product.productId})}" role="button">
