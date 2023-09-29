@@ -5,9 +5,12 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import uz.greenwhite.webstore.entity.Category;
 import uz.greenwhite.webstore.entity.Users;
 import uz.greenwhite.webstore.enums.UserRole;
+import uz.greenwhite.webstore.repository.CategoryRepository;
 import uz.greenwhite.webstore.repository.UserRepository;
+import uz.greenwhite.webstore.service.CategoryService;
 
 @Component
 @AllArgsConstructor
@@ -15,9 +18,17 @@ public class AppInit implements ApplicationRunner {
 //
 //    private final UserRepository userRepository;
 //    private final PasswordEncoder encoder;
+    private final CategoryService categoryService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        Category category = new Category();
+        category.setCategoryName("Texnika");
+        categoryService.save(category);
+        category.setCategoryId(null);
+        category.setCategoryName("Mebel");
+        category.setIsActive(false);
+        categoryService.save(category);
 //        if (userRepository.findByUsername("admin").isEmpty()) {
 //            Users admin = new Users();
 //            admin.setRole(UserRole.MODERATOR);
