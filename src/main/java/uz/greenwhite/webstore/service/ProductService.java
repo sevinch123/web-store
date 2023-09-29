@@ -23,17 +23,17 @@ public class ProductService {
         return repository.findById(ID).orElse(null);
     }
 
-    public void update(Product product) {
-        repository.save(product);
+    public Product update(Product product) {
+        return repository.save(product);
     }
 
-    public void save(Product product) {
+    public Product create(Product product) {
         if(product.getIsActive() == null)
             product.setIsActive(true);
-        repository.save(product);
+        return repository.save(product);
     }
 
-    public void delete(Long ID) {
+    public void deleteById(Long ID) {
         repository.deleteById(ID);
     }
 
