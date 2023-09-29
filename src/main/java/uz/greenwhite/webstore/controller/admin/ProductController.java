@@ -83,8 +83,8 @@ public class ProductController {
 
     @GetMapping("/image/{id}")
     public void image(@PathVariable Long id, HttpServletResponse response) {
-        Product category = service.getById(id);
-        File file = new File(FILE_ROOT + "/product/" + category.getPhoto());
+        Product product = service.getById(id);
+        File file = new File(FILE_ROOT + "/product/" + product.getPhoto());
         if (file.exists()) {
             response.setContentType("application/octet-stream");
             String headerKey = "Content-Disposition";

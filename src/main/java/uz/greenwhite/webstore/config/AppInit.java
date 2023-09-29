@@ -12,6 +12,8 @@ import uz.greenwhite.webstore.repository.CategoryRepository;
 import uz.greenwhite.webstore.repository.UserRepository;
 import uz.greenwhite.webstore.service.CategoryService;
 
+import java.io.File;
+
 @Component
 @AllArgsConstructor
 public class AppInit implements ApplicationRunner {
@@ -29,6 +31,7 @@ public class AppInit implements ApplicationRunner {
         category.setCategoryName("Mebel");
         category.setIsActive(false);
         categoryService.save(category);
+//        new File("FILE").mkdir();
 //        if (userRepository.findByUsername("admin").isEmpty()) {
 //            Users admin = new Users();
 //            admin.setRole(UserRole.MODERATOR);
