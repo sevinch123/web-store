@@ -47,7 +47,13 @@ public class CategoryController {
 
     @GetMapping("delete/{id}")
     public String deleteCategory(@PathVariable Long id) {
-        service.deleteById(id);
+        try {
+            service.deleteById(id);
+        } catch (RuntimeException e) {
+            Category category = service.getById(id);
+            category.setIsActive(false);
+            service.update(category);
+        }
         return "redirect:/admin/data/category";
     }
 }
