@@ -38,3 +38,4 @@ out/
 
 !/FILES/
 /FILES/*
+!/FILES/nothing
