@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"><!--     yengi kiritilgan -->
+<head th:replace="~{admin/commons::head}">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <!-- Navbar -->
+    <div th:replace="~{admin/commons::header}"></div>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside th:replace="~{admin/commons::aside}"></aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper py-2">
+        <div class="container">
+            <h4 class="text-center my-2" >Company Details</h4>
+            <div class="card-body">
+                <form method="post"
+                      enctype="multipart/form-data"
+                      th:action="'/admin/data/companyDetails/edit'"
+                      th:object="${companyDetails}">
+                    <div class="form-group" th:if="${companyDetails.companyDetailsId} != null">
+                        <label for="id">ID</label>
+                        <input type="text" readonly th:field="*{companyDetailsId}" name="id" id="id" class="form-control"
+                               placeholder="ID ..." aria-describedby="id">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" th:field="*{companyName}" name="name" id="name" required
+                               class="form-control"
+                               placeholder="Enter name" aria-describedby="name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone 1</label>
+                        <input type="tel" th:field="*{phone1}" name="phone" id="phone" 
+                               class="form-control"
+                               placeholder="Phone..." aria-describedby="phone">
+                        <small id="phone" class="text-muted">Enter phone number</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone 2</label>
+                        <input type="tel" th:field="*{phone2}" name="phone" id="phone"
+                               class="form-control"
+                               placeholder="Phone..." aria-describedby="phone">
+                        <small id="phone" class="text-muted">Enter phone number</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" th:field="*{email}" name="email" id="email" 
+                               class="form-control"
+                               placeholder="Email..." aria-describedby="email">
+                        <small id="email" class="text-muted">Enter Email</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="url">Instagram Url</label>
+                        <input type="url" th:field="*{instagramUrl}" name="url" id="url" 
+                               class="form-control"
+                               placeholder="Url..." aria-describedby="url">
+                        <small id="url" class="text-muted">Enter Url</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="url">Telegram Url</label>
+                        <input type="url" th:field="*{telegramUrl}" name="url" id="url" 
+                               class="form-control"
+                               placeholder="Url..." aria-describedby="url">
+                        <small id="url" class="text-muted">Enter Url</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" th:field="*{address}" name="address" id="address"
+                               class="form-control"
+                               placeholder="Address..." aria-describedby="address">
+                        <small id="address" class="text-muted">Enter address</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="url">Location Url</label>
+                        <input type="url" th:field="*{locationUrl}" name="url" id="url" 
+                               class="form-control"
+                               placeholder="Url..." aria-describedby="url">
+                        <small id="url" class="text-muted">Enter Url</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="file">Logo</label>
+                        <input type="file" name="file" id="file" 
+                               class="form-control"
+                               placeholder="Logo ..." aria-describedby="file">
+                        <small id="file" class="text-muted">select logo</small>
+                    </div>
+
+                    <a class="btn btn-secondary" th:href="@{/admin/data/companyDetails}" role="button">Go
+                        back</a>
+                    <button type="submit" class="btn btn-success">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="~{admin/commons::footer}"></footer>
+</div>
+<!-- Main Footer -->
+</div>
+
+
+<th:block th:replace="~{admin/commons::scripts}"></th:block>
+
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+</body>
+</html>
