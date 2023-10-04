@@ -19,6 +19,7 @@
             <a name="" class="btn btn-primary" th:href="@{/admin/data/seller/add}" role="button">Add Seller</a>
             <table class="table table-bordered table-inverse mt-3 table-responsive">
                 <thead class="thead-inverse">
+                <thead class="thead-inverse mt-3 ">
                 <tr>
                     <th>ID</th>
                     <th>First Name</th>
@@ -29,7 +30,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="seller: ${sellers}">
+                <tr th:each="seller: ${seller}">
                     <td scope="row" th:text="${seller.userId}"></td>
                     <td th:text="${seller.firstName}"></td>
                     <td th:text="${seller.lastName}"></td>
@@ -38,10 +39,12 @@
                     <td>
                         <a name="" id="" class="btn btn-primary" href="#"
                            th:href="@{/admin/data/seller/edit(id=${seller.userId})}" role="button">
+                            <i class="fa fa-pen" aria-hidden="true"></i>
                             Edit
                         </a>
                         <button type="button" class="btn btn-danger" data-toggle="modal"
                                 th:data-target="${'#id'+seller.userId}">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
                             Delete
                         </button>
                     </td>

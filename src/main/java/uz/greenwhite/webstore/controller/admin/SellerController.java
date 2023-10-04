@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import uz.greenwhite.webstore.entity.Users;
+import uz.greenwhite.webstore.enums.UserRole;
 import uz.greenwhite.webstore.enums.UserStatus;
 import uz.greenwhite.webstore.service.SellerService;
 
@@ -25,6 +26,8 @@ public class SellerController {
     @GetMapping("/add")
     public String addPage(Model model) {
         model.addAttribute("seller", new Users());
+        model.addAttribute("ROLE_SELLER", UserRole.SELLER);
+        model.addAttribute("ROLE_MODERATOR", UserRole.MODERATOR);
         return "/admin/data/seller/add";
     }
 
