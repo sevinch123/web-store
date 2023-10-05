@@ -5,9 +5,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import uz.greenwhite.webstore.entity.Users;
+import uz.greenwhite.webstore.entity.User;
 import uz.greenwhite.webstore.enums.UserRole;
-import uz.greenwhite.webstore.enums.UserStatus;
 import uz.greenwhite.webstore.service.SellerService;
 
 @Controller
@@ -25,14 +24,14 @@ public class SellerController {
 
     @GetMapping("/add")
     public String addPage(Model model) {
-        model.addAttribute("seller", new Users());
+        model.addAttribute("seller", new User());
         model.addAttribute("ROLE_SELLER", UserRole.SELLER);
         model.addAttribute("ROLE_MODERATOR", UserRole.MODERATOR);
         return "/admin/data/seller/add";
     }
 
     @PostMapping("/add")
-    public String addSeller(@ModelAttribute Users seller) {
+    public String addSeller(@ModelAttribute User seller) {
         service.save(seller);
         return "redirect:/admin/data/seller";
     }
@@ -44,7 +43,7 @@ public class SellerController {
     }
 
     @PostMapping("/edit")
-    public String editSeller(@ModelAttribute Users seller) {
+    public String editSeller(@ModelAttribute User seller) {
         service.update(seller);
         return "redirect:/admin/data/seller";
     }
@@ -54,8 +53,8 @@ public class SellerController {
         try {
             service.deleteById(id);
         } catch (RuntimeException e) {
-            Users seller = service.getById(id);
-            seller.setStatus(UserStatus.PASSIVE);
+            User seller = service.getById(id);
+            seller.setIsActive(false);
             service.update(seller);
         }
         return "redirect:/admin/data/seller";

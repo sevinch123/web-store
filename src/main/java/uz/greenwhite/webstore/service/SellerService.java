@@ -4,8 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import uz.greenwhite.webstore.entity.Users;
-import uz.greenwhite.webstore.enums.UserStatus;
+import uz.greenwhite.webstore.entity.User;
 import uz.greenwhite.webstore.repository.SellerRepository;
 
 @Service
@@ -13,24 +12,24 @@ import uz.greenwhite.webstore.repository.SellerRepository;
 public class SellerService {
     private final SellerRepository repository;
 
-    public Page<Users> getAll(Pageable pageable) {
+    public Page<User> getAll(Pageable pageable) {
         return repository.findAll(pageable);
     }
 
-    public Users getById(Long id) {
+    public User getById(Long id) {
         return repository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
     }
 
-    public Users save(Users seller) {
+    public User save(User seller) {
         if (seller.getUserId() != null)
             throw new RuntimeException("ID should be a null");
 
-        if (seller.getStatus() == UserStatus.PASSIVE) seller.setStatus(UserStatus.ACTIVE);
+        if (seller.getIsActive() == null) seller.setIsActive(true);
 
         return repository.save(seller);
     }
 
-    public Users update(Users seller){
+    public User update(User seller){
         if(seller.getUserId() == null)
             throw new RuntimeException("Id shouldn't be null");
 
