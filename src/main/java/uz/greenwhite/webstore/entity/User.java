@@ -4,14 +4,19 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import uz.greenwhite.webstore.enums.UserRole;
 import uz.greenwhite.webstore.enums.UserStatus;
+
+import java.util.Collection;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Users {
+@Table(name = "users")
+public class User{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,13 +26,13 @@ public class Users {
 
     private String lastName;
 
-    private String login;
+    private String username;
 
     private String password;
 
-    @Enumerated (EnumType.ORDINAL)
+    @Enumerated(EnumType.ORDINAL)
     private UserRole role;
 
-    @Enumerated (EnumType.ORDINAL)
-    private UserStatus status;
+    private Boolean isActive;
+
 }
