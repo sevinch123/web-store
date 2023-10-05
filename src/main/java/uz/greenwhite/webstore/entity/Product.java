@@ -34,4 +34,10 @@ public class Product {
 
     private String description;
 
+    @Transient
+    private Integer addQuantity;
+
+    @Transient
+    private Integer removeQuantity;
+
 }

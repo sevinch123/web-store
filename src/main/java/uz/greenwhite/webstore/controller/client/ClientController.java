@@ -3,45 +3,59 @@ package uz.greenwhite.webstore.controller.client;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import uz.greenwhite.webstore.entity.Category;
-import uz.greenwhite.webstore.service.CategoryService;
+import uz.greenwhite.webstore.entity.*;
+import uz.greenwhite.webstore.service.*;
 import org.springframework.ui.Model;
 import org.springframework.data.domain.Pageable;
 
 @Controller
 public class ClientController {
-    private final CategoryService service;
+    private final CategoryService categoryService;
+    private final CompanyDetailsService detailsService;
 
-    public ClientController(CategoryService service) {
-        this.service = service;
+    public ClientController(CategoryService categoryService,CompanyDetailsService detailsService) {
+        this.categoryService = categoryService;
+        this.detailsService=detailsService;
     }
 
     @GetMapping
     public String list(Model model, Pageable pageable) {
-        Page<Category> page = service.getAll(pageable);
+        Page<Category> page = categoryService.getAll(pageable);
+        Page<CompanyDetails> detailsPage = detailsService.getAll(pageable);
         long elements = page.getTotalElements();
         model.addAttribute("categories", page);
+        model.addAttribute("details", detailsPage);
         model.addAttribute("elements", elements);
         return "index";
     }
     @GetMapping("/cart")
-    public String cartController() {
+    public String cartController(Model model, Pageable pageable) {
+        Page<CompanyDetails> detailsPage = detailsService.getAll(pageable);
+        model.addAttribute("details", detailsPage);
         return "cart";
     }
     @GetMapping("/contact")
-    public String contactController() {
+    public String contactController(Model model, Pageable pageable) {
+        Page<CompanyDetails> detailsPage = detailsService.getAll(pageable);
+        model.addAttribute("details", detailsPage);
         return "contact";
     }
     @GetMapping("/detail")
-    public String detailController() {
+    public String detailController(Model model, Pageable pageable) {
+        Page<CompanyDetails> detailsPage = detailsService.getAll(pageable);
+        model.addAttribute("details", detailsPage);
         return "detail";
     }
     @GetMapping("/shop")
-    public String shopController() {
+    public String shopController(Model model, Pageable pageable) {
+        Page<CompanyDetails> detailsPage = detailsService.getAll(pageable);
+        model.addAttribute("details", detailsPage);
         return "shop";
     }
     @GetMapping("/checkout")
-    public String checkoutController() {
+    public String checkoutController(Model model, Pageable pageable) {
+        Page<CompanyDetails> detailsPage = detailsService.getAll(pageable);
+        model.addAttribute("details", detailsPage);
         return "checkout";
     }
 

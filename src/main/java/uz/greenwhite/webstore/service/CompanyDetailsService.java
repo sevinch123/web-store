@@ -21,14 +21,14 @@ public class CompanyDetailsService {
     }
     
     public CompanyDetails save(CompanyDetails details) {
-        if(details.getCompanyDetailsId() != null)
-            throw new RuntimeException("Id should be a null");
+        if(details.getPhone1()!=null)
+        details.setPhone1("+998"+details.getPhone1());
+        if(details.getPhone2()!=null)
+        details.setPhone2("+998"+details.getPhone2());
         return repository.save(details);
     }
 
     public CompanyDetails update(CompanyDetails details) {
-        if(details.getCompanyDetailsId() == null)
-            throw new RuntimeException("Id shouldn't be null");
         return repository.save(details);
     }
 }
