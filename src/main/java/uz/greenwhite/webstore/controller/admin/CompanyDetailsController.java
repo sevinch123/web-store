@@ -24,31 +24,36 @@ import uz.greenwhite.webstore.service.CompanyDetailsService;
 public class CompanyDetailsController {
     private final CompanyDetailsService service;
     private final String FILE_ROOT = "FILES";
+    
     @GetMapping()
     public String listPage(Model model, Pageable pageable) {
-        model.addAttribute("list", service.getAll(pageable));
-        return "/admin/data/companyDetails/list";
+         CompanyDetails companyDetails = service.getById(1L); // Retrieve the CompanyDetails entity with ID 1
+         model.addAttribute("companyDetails", companyDetails);
+         return "/admin/data/companyDetails/add";
     }
-   
+    
     @GetMapping("/edit")
-    public String editPage(Model model, @RequestParam("id") Long id) {
-        CompanyDetails companyDetails=service.getById(id);
-        model.addAttribute("companyDetails",companyDetails);
-        return "/admin/data/companyDetails/add";
+    public String editPage(Model model) {
+       CompanyDetails companyDetails = service.getById(1L); // Retrieve the CompanyDetails entity with ID 1
+       model.addAttribute("companyDetails", companyDetails);
+       return "/admin/data/companyDetails/add";
     }
     
     @PostMapping("/edit")
-    public String editCompanyDetails(@ModelAttribute CompanyDetails companyDetails,@RequestParam("file")MultipartFile file) throws IOException {
-        companyDetails=service.update(companyDetails);
-        saveFile(companyDetails,file);
+    public String editCompanyDetails(@ModelAttribute CompanyDetails companyDetails, @RequestParam("file") MultipartFile file) throws IOException {
+        CompanyDetails existingCompanyDetails = service.getById(1L); // Retrieve the existing CompanyDetails entity with ID 1
+        companyDetails.setCompanyDetailsId(existingCompanyDetails.getCompanyDetailsId()); // Set the ID to 1
+        companyDetails = service.update(companyDetails);
+       saveFile(companyDetails, file);
         return "redirect:/admin/data/companyDetails";
     }
   
-    @GetMapping("/image/{id}")
-    public void image(@PathVariable Long id, HttpServletResponse response) {
-        CompanyDetails companyDetails = service.getById(id);
+    @GetMapping("/image")
+    public void image(HttpServletResponse response) {
+        CompanyDetails companyDetails = service.getById(1L); // Retrieve the CompanyDetails entity with ID 1
         File file = new File(FILE_ROOT + "/companyDetails/" + companyDetails.getLogoPath());
-        if (file.exists()) {
+        // Rest of the method implementation remains unchanged
+            if (file.exists()) {
             response.setContentType("application/octet-stream");
             String headerKey = "Content-Disposition";
             String headerValue = String.format("inline; filename=\"%s\"", file.getName());
