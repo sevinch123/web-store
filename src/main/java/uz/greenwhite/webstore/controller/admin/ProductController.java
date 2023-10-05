@@ -55,19 +55,41 @@ public class ProductController {
     }
 
     @GetMapping("/edit")
-    public String editPage(Model model, @RequestParam("id") Long id,Pageable pageable) {
-        Product product = service.getById(id);
-        model.addAttribute("product", product);
+    public String editPage(Model model, @RequestParam("id") Long id, Pageable pageable) {
+        model.addAttribute("product", service.getById(id));
         model.addAttribute("categories", categoryService.getAll(pageable));
         return "admin/data/product/add";
     }
 
     @PostMapping("/edit")
-    public String editProduct(@ModelAttribute Product product,  @RequestParam("file") MultipartFile file) throws IOException {
-        product = service.update(product);
-        saveFile(product, file);
+    public String editProduct(@ModelAttribute Product updatedProduct, @RequestParam("file") MultipartFile file) throws IOException {
+        Product originalProduct = service.getById(updatedProduct.getProductId());
+
+        if (originalProduct != null) {
+            Integer currentQuantity = originalProduct.getQuantity();
+            if (updatedProduct.getAddQuantity() != null && updatedProduct.getAddQuantity() > 0) {
+                if (updatedProduct.getRemoveQuantity() != null && updatedProduct.getRemoveQuantity() > 0) {
+                    updatedProduct.setAddQuantity(updatedProduct.getAddQuantity() - updatedProduct.getRemoveQuantity());
+                    updatedProduct.setRemoveQuantity(0);
+                }
+                currentQuantity = (currentQuantity != null) ? currentQuantity + updatedProduct.getAddQuantity() : updatedProduct.getAddQuantity();
+            }
+            else if (updatedProduct.getRemoveQuantity() != null && updatedProduct.getRemoveQuantity() > 0) {
+                currentQuantity = (currentQuantity != null) ? Math.max(0, currentQuantity - updatedProduct.getRemoveQuantity()) : 0;
+            }
+
+            originalProduct.setQuantity(currentQuantity);
+
+
+            service.update(originalProduct);
+
+            saveFile(originalProduct, file);
+        }
+
         return "redirect:/admin/data/product";
     }
+
+
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable long id) {
         try {
