@@ -31,7 +31,7 @@ public class CompanyDetailsController {
          model.addAttribute("companyDetails", companyDetails);
          return "/admin/data/companyDetails/add";
     }
-    
+   
     @GetMapping("/edit")
     public String editPage(Model model) {
        CompanyDetails companyDetails = service.getById(1L); // Retrieve the CompanyDetails entity with ID 1
