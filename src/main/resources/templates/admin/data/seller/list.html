@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/commons::head}"></head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <!-- Navbar -->
+    <div th:replace="~{admin/commons::header}"></div>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside th:replace="~{admin/commons::aside}"></aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <!-- /.content-wrapper -->
+    <div class="content-wrapper py-2">
+        <div class="container">
+            <h3 class="text-center">Seller List</h3>
+            <a name="" class="btn btn-primary" th:href="@{/admin/data/seller/add}" role="button">Add Seller</a>
+            <table class="table table-bordered table-inverse mt-3 table-responsive">
+                <thead class="thead-inverse">
+                <thead class="thead-inverse mt-3 ">
+                <tr>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Login</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="seller: ${seller}">
+                    <td scope="row" th:text="${seller.userId}"></td>
+                    <td th:text="${seller.firstName}"></td>
+                    <td th:text="${seller.lastName}"></td>
+                    <td th:text="${seller.login}"></td>
+                    <td th:text="${seller.status}"></td>
+                    <td>
+                        <a name="" id="" class="btn btn-primary" href="#"
+                           th:href="@{/admin/data/seller/edit(id=${seller.userId})}" role="button">
+                            <i class="fa fa-pen" aria-hidden="true"></i>
+                            Edit
+                        </a>
+                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                                th:data-target="${'#id'+seller.userId}">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                            Delete
+                        </button>
+                    </td>
+                    <div class="modal fade" th:attr="id='id' + ${seller.userId}"
+                         tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Delete Seller</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure you want to delete the seller <span class="alert-danger"
+                                                                                     th:text="${seller.firstName}"></span>?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <a th:href="@{'/admin/data/seller/delete/' + ${seller.userId}}" type="button"
+                                       class="btn btn-danger">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Main Footer -->
+    <footer th:replace="~{admin/commons::footer}"></footer>
+</div>
+</div>
+<th:block th:replace="~{admin/commons::scripts}"></th:block>
+</body>
+</html>
