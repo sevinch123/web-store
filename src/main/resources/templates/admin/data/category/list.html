@@ -57,9 +57,20 @@
 
 
                                 <div class="modal-body">
-                                    Siz rostdan ham <span class="alert-danger" th:text="${item.categoryName}"></span>ni
-                                    o'chirmoqchimisiz?
+                                   <h5> Are you sure you want to delete category <span class="alert-danger" th:text="${item.categoryName}"></span> ? </h5>
                                 </div>
+
+
+
+
+                                <div class="modal-body">
+                                   <small>  <span style="font-weight: bold;"> If there are no products </span> in this category, the category will be completely deleted.</small>
+                                </div>
+
+                                <div class="modal-body">
+                                 <small>   <span style="font-weight: bold;"> If there are products </span> in this category, the category will not be deleted and the status of the category will be changed to 'passive'. </small>
+                                </div>
+
 
 
                                 <div class="modal-footer">
