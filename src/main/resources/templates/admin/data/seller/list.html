@@ -24,8 +24,9 @@
                     <th>ID</th>
                     <th>First Name</th>
                     <th>Last Name</th>
-                    <th>User Name</th>
+                    <th>Login</th>
                     <th>Status</th>
+                    <th>Password</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -36,6 +37,7 @@
                     <td th:text="${seller.lastName}"></td>
                     <td th:text="${seller.username}"></td>
                     <td th:text="${seller.isActive} ? ACTIVE : PASSIVE"></td>
+                    <td th:text="${seller.password}"></td>
                     <td>
                         <a name="" id="" class="btn btn-primary" href="#"
                            th:href="@{/admin/data/seller/edit(id=${seller.userId})}" role="button">

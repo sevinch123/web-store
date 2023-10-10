@@ -47,7 +47,7 @@ public class AppInit implements ApplicationRunner {
        if (userRepository.findByUsername("admin").isEmpty()) {
             User admin = new User();
             admin.setFirstName("Ilon");
-            admin.setFirstName("Mask");
+            admin.setLastName("Mask");
             admin.setRole(UserRole.MODERATOR);
             admin.setUsername("admin");
             admin.setPassword(encoder.encode("123"));
@@ -58,7 +58,7 @@ public class AppInit implements ApplicationRunner {
         if (userRepository.findByUsername("seller").isEmpty()) {
             User seller = new User();
             seller.setFirstName("Stive");
-            seller.setFirstName("Jobs");
+            seller.setLastName("Jobs");
             seller.setRole(UserRole.SELLER);
             seller.setUsername("seller");
             seller.setPassword(encoder.encode("123"));

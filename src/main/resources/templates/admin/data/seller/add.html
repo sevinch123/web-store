@@ -66,8 +66,8 @@
                     <div class="form-group">
                         <label for="isActive">Status</label>
                         <select id="isActive" th:field="*{isActive}" class="form-control" required>
-                            <option th:value="ACTIVE">Active</option>
-                            <option th:value="PASSIVE">Passive</option>
+                            <option th:value="true">Active</option>
+                            <option th:value="false">Passive</option>
                         </select>
                     </div>
                     <!-- Другие поля для данных о продавце -->
