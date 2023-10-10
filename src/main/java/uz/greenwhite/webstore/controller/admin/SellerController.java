@@ -7,14 +7,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import uz.greenwhite.webstore.entity.User;
 import uz.greenwhite.webstore.enums.UserRole;
-import uz.greenwhite.webstore.service.SellerService;
+import uz.greenwhite.webstore.service.UserService;
 
 @Controller
 @AllArgsConstructor
 @RequestMapping("/admin/data/seller")
 public class SellerController {
 
-    private final SellerService service;
+    private final UserService service;
 
     @GetMapping()
     public String listPage(Model model, Pageable pageable) {
