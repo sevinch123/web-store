@@ -12,48 +12,74 @@ import org.springframework.data.domain.Pageable;
 public class ClientController {
     private final CategoryService categoryService;
     private final CompanyDetailsService detailsService;
+    private final ProductService product;
 
-    public ClientController(CategoryService categoryService,CompanyDetailsService detailsService) {
+    public ClientController(CategoryService categoryService,CompanyDetailsService detailsService,ProductService product) {
         this.categoryService = categoryService;
         this.detailsService=detailsService;
+        this.product=product;
     }
 
     @GetMapping
     public String list(Model model, Pageable pageable) {
+        Page<Product> productPage=product.getAll(pageable);
+        model.addAttribute("products",productPage);
         Page<Category> page = categoryService.getAll(pageable);
-        Page<CompanyDetails> detailsPage = detailsService.getAll(pageable);
-        long elements = page.getTotalElements();
+        long elements = page.getTotalElements(); 
         model.addAttribute("categories", page);
-        model.addAttribute("details", detailsPage);
         model.addAttribute("elements", elements);
+        Page<CompanyDetails> detailsPage = detailsService.getAll(pageable);
+        model.addAttribute("details", detailsPage);
         return "index";
     }
     @GetMapping("/cart")
     public String cartController(Model model, Pageable pageable) {
+        Page<Category> page = categoryService.getAll(pageable);
+        long elements = page.getTotalElements(); 
+        model.addAttribute("categories", page);
+        model.addAttribute("elements", elements);
         Page<CompanyDetails> detailsPage = detailsService.getAll(pageable);
         model.addAttribute("details", detailsPage);
         return "cart";
     }
     @GetMapping("/contact")
     public String contactController(Model model, Pageable pageable) {
+        Page<Category> page = categoryService.getAll(pageable);
+        long elements = page.getTotalElements(); 
+        model.addAttribute("categories", page);
+        model.addAttribute("elements", elements);
         Page<CompanyDetails> detailsPage = detailsService.getAll(pageable);
         model.addAttribute("details", detailsPage);
         return "contact";
     }
     @GetMapping("/detail")
     public String detailController(Model model, Pageable pageable) {
+        Page<Category> page = categoryService.getAll(pageable);
+        long elements = page.getTotalElements(); 
+        model.addAttribute("categories", page);
+        model.addAttribute("elements", elements);
         Page<CompanyDetails> detailsPage = detailsService.getAll(pageable);
         model.addAttribute("details", detailsPage);
         return "detail";
     }
     @GetMapping("/shop")
     public String shopController(Model model, Pageable pageable) {
+        Page<Product> productPage=product.getAll(pageable);
+        model.addAttribute("products",productPage);
+        Page<Category> page = categoryService.getAll(pageable);
+        long elements = page.getTotalElements(); 
+        model.addAttribute("categories", page);
+        model.addAttribute("elements", elements);
         Page<CompanyDetails> detailsPage = detailsService.getAll(pageable);
         model.addAttribute("details", detailsPage);
         return "shop";
     }
     @GetMapping("/checkout")
     public String checkoutController(Model model, Pageable pageable) {
+        Page<Category> page = categoryService.getAll(pageable);
+        long elements = page.getTotalElements(); 
+        model.addAttribute("categories", page);
+        model.addAttribute("elements", elements);
         Page<CompanyDetails> detailsPage = detailsService.getAll(pageable);
         model.addAttribute("details", detailsPage);
         return "checkout";
