@@ -12,14 +12,18 @@ import org.springframework.data.domain.Pageable;
 public class ClientController {
     private final CategoryService categoryService;
     private final CompanyDetailsService detailsService;
+    private final ProductService product;
 
-    public ClientController(CategoryService categoryService,CompanyDetailsService detailsService) {
+    public ClientController(CategoryService categoryService,CompanyDetailsService detailsService,ProductService product) {
         this.categoryService = categoryService;
         this.detailsService=detailsService;
+        this.product=product;
     }
 
     @GetMapping
     public String list(Model model, Pageable pageable) {
+        Page<Product> productPage=product.getAll(pageable);
+        model.addAttribute("products",productPage);
         Page<Category> page = categoryService.getAll(pageable);
         long elements = page.getTotalElements(); 
         model.addAttribute("categories", page);
@@ -60,6 +64,8 @@ public class ClientController {
     }
     @GetMapping("/shop")
     public String shopController(Model model, Pageable pageable) {
+        Page<Product> productPage=product.getAll(pageable);
+        model.addAttribute("products",productPage);
         Page<Category> page = categoryService.getAll(pageable);
         long elements = page.getTotalElements(); 
         model.addAttribute("categories", page);
