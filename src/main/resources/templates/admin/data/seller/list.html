@@ -37,7 +37,6 @@
                     <td th:text="${seller.lastName}"></td>
                     <td th:text="${seller.username}"></td>
                     <td th:text="${seller.isActive} ? ACTIVE : PASSIVE"></td>
-                    <td th:text="${seller.password}"></td>
                     <td>
                         <a name="" id="" class="btn btn-primary" href="#"
                            th:href="@{/admin/data/seller/edit(id=${seller.userId})}" role="button">
