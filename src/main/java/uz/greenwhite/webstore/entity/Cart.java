@@ -9,14 +9,19 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductPhoto {
-    
+public class Cart {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long product_photo_id;
+    private Long id;
 
-    @ManyToOne 
-    @JoinColumn(name="product_id")
+    //cookie
+    private String token;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
     private Product product;
+
+    private Long count = 1L;
 
 }
