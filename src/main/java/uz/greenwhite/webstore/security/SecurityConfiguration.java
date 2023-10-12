@@ -32,7 +32,8 @@ public class SecurityConfiguration {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
                 // Spring Security should completely ignore URLs starting with /resources/
-                .requestMatchers("/resources/**");
+                .requestMatchers("/resources/**")
+                .requestMatchers("FILES/**");
     }
 
     @Bean
