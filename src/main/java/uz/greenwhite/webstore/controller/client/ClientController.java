@@ -53,7 +53,28 @@ public class ClientController {
         long elements = page.getTotalElements();
         model.addAttribute("categories", page);
         model.addAttribute("elements", elements);
-        model.addAttribute("cart", cartService.getAllByToken(getAndSetToken(request, response)));
+
+
+        String tokenName = "session_token";
+        String tokenValue = null;
+        boolean session = false;
+
+        if(request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if (cookie.getName().equals(tokenName)) {
+                    tokenValue = cookie.getValue();
+                    session = true;
+                    break;
+                }
+            }
+        }
+
+        if (!session) {
+            tokenValue = encoder.encode(String.valueOf(Date.from(Instant.now()).getTime()));
+            response.addCookie(new Cookie(tokenName, tokenValue));
+        }
+
+        model.addAttribute("cart", cartService.getAllByToken(tokenValue));
         Page<CompanyDetails> detailsPage = detailsService.getAll(pageable);
         model.addAttribute("details", detailsPage);
         return "/cart";
@@ -139,7 +160,6 @@ public class ClientController {
         String tokenName = "session_token";
         String tokenValue = null;
         boolean session = false;
-
         for (Cookie cookie : request.getCookies()) {
             if (cookie.getName().equals(tokenName)) {
                 tokenValue = cookie.getValue();
