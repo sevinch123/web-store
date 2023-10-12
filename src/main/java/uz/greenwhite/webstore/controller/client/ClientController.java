@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import uz.greenwhite.webstore.entity.*;
@@ -133,9 +134,13 @@ public class ClientController {
     }
 
     @GetMapping("/shop")
-    public String shopController(Model model, Pageable pageable) {
-        Page<Product> productPage = productService.getAll(pageable);
-        model.addAttribute("products", productPage);
+    public String shopController(@RequestParam(name = "id", required = false) Long categoryId,  Model model, Pageable pageable) {
+        if(categoryId != null) {
+            model.addAttribute("products", productService.getByCategory(categoryId, null));
+        } else {
+            model.addAttribute("products", productService.getAll(pageable));
+
+        }
         Page<Category> page = categoryService.getAll(pageable);
         long elements = page.getTotalElements();
         model.addAttribute("categories", page);
@@ -145,6 +150,7 @@ public class ClientController {
         return "shop";
     }
 
+    
     @GetMapping("/checkout")
     public String checkoutController(Model model, Pageable pageable) {
         Page<Category> page = categoryService.getAll(pageable);
