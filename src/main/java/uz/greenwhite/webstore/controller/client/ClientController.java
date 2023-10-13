@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import uz.greenwhite.webstore.entity.*;
@@ -16,8 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.data.domain.Pageable;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Controller
 @AllArgsConstructor
@@ -45,15 +46,44 @@ public class ClientController {
         return "index";
     }
 
+    // list
     @GetMapping("/cart")
-    public String cartController(Model model, Pageable pageable,
+    public String cartController(@ModelAttribute(name = "carts") ArrayList<Cart> carts, Model model, Pageable pageable,
                                  HttpServletRequest request,
                                  HttpServletResponse response) {
         Page<Category> page = categoryService.getAll(pageable);
         long elements = page.getTotalElements();
         model.addAttribute("categories", page);
         model.addAttribute("elements", elements);
-        model.addAttribute("cart", cartService.getAllByToken(getAndSetToken(request, response)));
+        if(carts != null) {
+            for(Cart cart: carts) {
+                cartService.update(cart);
+            }
+        }
+        model.addAttribute("carts", cartService.getAllByToken(getAndSetToken(request, response)));
+
+
+
+        String tokenName = "session_token";
+        String tokenValue = null;
+        boolean session = false;
+
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if (cookie.getName().equals(tokenName)) {
+                    tokenValue = cookie.getValue();
+                    session = true;
+                    break;
+                }
+            }
+        }
+
+        if (!session) {
+            tokenValue = encoder.encode(String.valueOf(Date.from(Instant.now()).getTime()));
+            response.addCookie(new Cookie(tokenName, tokenValue));
+        }
+
+        model.addAttribute("carts", cartService.getAllByToken(tokenValue));
         Page<CompanyDetails> detailsPage = detailsService.getAll(pageable);
         model.addAttribute("details", detailsPage);
         return "/cart";
@@ -72,15 +102,8 @@ public class ClientController {
         return "redirect:/cart";
     }
 
-    @GetMapping("/cart/update")
-    public String updateCart(@ModelAttribute List<Cart> cart, Model model) {
-        for(Cart c: cart) {
-            cartService.update(c);
-        }
-        model.addAttribute(cart);
-        return "redirect:/cart";
-    }
 
+    //delete
     @GetMapping("/cart/delete/{id}")
     public String delete(@PathVariable Long id) {
         cartService.deleteById(id);
@@ -100,21 +123,27 @@ public class ClientController {
         return "contact";
     }
 
-    @GetMapping("/detail")
-    public String detailController(Model model, Pageable pageable) {
+    @GetMapping("/product/{productName}-{productId}")
+    public String detailController(@PathVariable String productName, @PathVariable Long productId, Model model, Pageable pageable) {
         Page<Category> page = categoryService.getAll(pageable);
-        long elements = page.getTotalElements();
-        model.addAttribute("categories", page);
-        model.addAttribute("elements", elements);
-        Page<CompanyDetails> detailsPage = detailsService.getAll(pageable);
-        model.addAttribute("details", detailsPage);
+        //long elements = page.getTotalElements();
+        Product productById = productService.getById(productId);
+        if (productById == null) {
+            return "error";
+        }
+        //model.addAttribute("elements", elements);
+        model.addAttribute("product", productById);
         return "detail";
     }
 
     @GetMapping("/shop")
-    public String shopController(Model model, Pageable pageable) {
-        Page<Product> productPage = productService.getAll(pageable);
-        model.addAttribute("products", productPage);
+    public String shopController(@RequestParam(name = "id", required = false) Long categoryId, Model model, Pageable pageable) {
+        if (categoryId != null) {
+            model.addAttribute("products", productService.getByCategory(categoryId, null));
+        } else {
+            model.addAttribute("products", productService.getAll(pageable));
+
+        }
         Page<Category> page = categoryService.getAll(pageable);
         long elements = page.getTotalElements();
         model.addAttribute("categories", page);
@@ -123,6 +152,7 @@ public class ClientController {
         model.addAttribute("details", detailsPage);
         return "shop";
     }
+
 
     @GetMapping("/checkout")
     public String checkoutController(Model model, Pageable pageable) {
@@ -139,12 +169,13 @@ public class ClientController {
         String tokenName = "session_token";
         String tokenValue = null;
         boolean session = false;
-
-        for (Cookie cookie : request.getCookies()) {
-            if (cookie.getName().equals(tokenName)) {
-                tokenValue = cookie.getValue();
-                session = true;
-                break;
+        if(request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if (cookie.getName().equals(tokenName)) {
+                    tokenValue = cookie.getValue();
+                    session = true;
+                    break;
+                }
             }
         }
 

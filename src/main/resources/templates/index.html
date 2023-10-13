@@ -39,6 +39,8 @@
             width: 5px;
         }
 
+
+
     </style>
 </head>
 
@@ -101,7 +103,8 @@
     <div class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex">
         <div class="col-lg-4">
             <div class="image-container" th:each="list:${details}">
-                <img  th:src="@{|/admin/data/companyDetails/image/${list.companyDetailsId}|}" height="50px" width="auto" alt="rasm"/>
+                <img th:src="@{|/admin/data/companyDetails/image/${list.companyDetailsId}|}" height="50px" width="auto"
+                     alt="rasm"/>
             </div>
         </div>
         <div class="col-lg-4 col-6 text-left">
@@ -118,10 +121,14 @@
         </div>
         <div class="nav-item dropdown dropright">
             <a href="#" class="nav-link dropdown-toggle text-dark" data-toggle="dropdown">Customer Service </a>
-            <div class="dropdown-menu position-absolute rounded-0 border-0 m-0" >
+            <div class="dropdown-menu position-absolute rounded-0 border-0 m-0">
                 <table>
-                    <tr class="mb-2" th:each="list:${details}" style="margin-left: 10px;"><td th:text="${list.phone1}"></td></tr>
-                    <tr class="mb-2" th:each="list:${details}" style="margin-left: 10px;"><td th:text="${list.phone2}"></td></tr>
+                    <tr class="mb-2" th:each="list:${details}" style="margin-left: 10px;">
+                        <td th:text="${list.phone1}"></td>
+                    </tr>
+                    <tr class="mb-2" th:each="list:${details}" style="margin-left: 10px;">
+                        <td th:text="${list.phone2}"></td>
+                    </tr>
                 </table>
             </div>
         </div>
@@ -748,18 +755,23 @@
     <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Recent Products</span>
     </h2>
     <div class="row px-xl-5">
-        <div style="display: flex;flex-wrap:wrap; justify-content: space-between;">
-            <div style="width: 25%;margin-bottom: 20px; border: 1px solid #ccc;background-color: #ffffff; padding: 10px;" th:each="list:${products}">
+        <div class="col-lg-3 col-md-4 col-sm-6" th:each="list:${products}">
+            <div class="card mb-3 card-shadow clickable-card"
+                 th:attr="data-url='/product/' + ${list.name + '-' + list.productId}">
                 <div class="product-img position-relative overflow-hidden">
-                    <img class="img-fluid w-100" th:src="@{|/admin/data/product/image/${list.productId}|}" alt="rasm"/>      
+                    <img class="img-fluid card-img-top w-100"
+                         th:src="@{|/admin/data/product/image/${list.productId}|}"
+                         alt="rasm"/>
                     <div class="product-action">
-                        <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
+                        <a class="btn btn-outline-dark btn-square" href=""><i
+                                class="fa fa-shopping-cart"></i></a>
                         <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                        <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
+                        <a class="btn btn-outline-dark btn-square" href=""><i
+                                class="fa fa-sync-alt"></i></a>
                         <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
                     </div>
                 </div>
-                <div class="text-center py-4">
+                <div class="text-center card-body py-4">
                     <h5 th:text="${list.name}"></h5>
                     <div class="d-flex align-items-center justify-content-center mt-2">
                         <h6 th:text="${list.price} + ' so&rsquo;m'"></h6>
@@ -774,6 +786,7 @@
                     </div>
                 </div>
             </div>
+        </div>
     </div>
 </div>
 <!-- Products End -->
@@ -820,23 +833,24 @@
     <div class="row px-xl-5 pt-5">
         <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
             <h5 class="text-secondary text-uppercase mb-4">Get In Touch</h5>
-            <p class="mb-4">No dolore ipsum accusam no lorem. Invidunt sed clita kasd clita et et dolor sed dolor. Rebum
+            <p class="mb-4">No dolore ipsum accusam no lorem. Invidunt sed clita kasd clita et et dolor sed dolor.
+                Rebum
                 tempor no vero est magna amet no</p>
-                <table>
-                    <tr class="mb-2" th:each="list:${details}">
-                        <td class="text-primary mr-3" th:text="${list.address}"></td>
-                    </tr>
-                    <tr class="mb-2" th:each="list:${details}">
-                        <td class="text-primary mr-3" th:text="${list.email}"></td>
-                    </tr>
-                    <tr class="mb-0" th:each="list:${details}">
-                        <td class="text-primary mr-3" th:text="${list.phone1}"></td>
-                    </tr>
-                    <tr class="mb-0" th:each="list:${details}">
-                        <td class="text-primary mr-3" th:text="${list.phone2}"></td>
-                    </tr>
-                </table>
-         </div>
+            <table>
+                <tr class="mb-2" th:each="list:${details}">
+                    <td class="text-primary mr-3" th:text="${list.address}"></td>
+                </tr>
+                <tr class="mb-2" th:each="list:${details}">
+                    <td class="text-primary mr-3" th:text="${list.email}"></td>
+                </tr>
+                <tr class="mb-0" th:each="list:${details}">
+                    <td class="text-primary mr-3" th:text="${list.phone1}"></td>
+                </tr>
+                <tr class="mb-0" th:each="list:${details}">
+                    <td class="text-primary mr-3" th:text="${list.phone2}"></td>
+                </tr>
+            </table>
+        </div>
         <div class="col-lg-8 col-md-12">
             <div class="row">
                 <div class="col-md-4 mb-5">
@@ -844,7 +858,8 @@
                     <div class="d-flex flex-column justify-content-start">
                         <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Home</a>
                         <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
-                        <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a>
+                        <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Shop
+                            Detail</a>
                         <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
                         <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
                         <a class="text-secondary" href="#"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
@@ -855,7 +870,8 @@
                     <div class="d-flex flex-column justify-content-start">
                         <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Home</a>
                         <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
-                        <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a>
+                        <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Shop
+                            Detail</a>
                         <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
                         <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
                         <a class="text-secondary" href="#"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
@@ -876,9 +892,12 @@
                     <div class="d-flex" th:if="${details!=null}">
                         <table>
                             <tr th:each="list:${details}">
-                                <td><a class="btn btn-primary btn-square mr-2" th:href="${list.instagramUrl}"><i class="fab fa-instagram"></i></a></td>
-                                <td><a class="btn btn-primary btn-square mr-2" th:href="${list.telegramUrl}"><i class="fab fa-telegram" aria-hidden="true"></i></a></td>
-                                <td><a class="btn btn-primary btn-square" th:href="${list.locationUrl}"><i class="fa-solid fa-location-dot"></i></a></td>
+                                <td><a class="btn btn-primary btn-square mr-2" th:href="${list.instagramUrl}"><i
+                                        class="fab fa-instagram"></i></a></td>
+                                <td><a class="btn btn-primary btn-square mr-2" th:href="${list.telegramUrl}"><i
+                                        class="fab fa-telegram" aria-hidden="true"></i></a></td>
+                                <td><a class="btn btn-primary btn-square" th:href="${list.locationUrl}"><i
+                                        class="fa-solid fa-location-dot"></i></a></td>
                             </tr>
                         </table>
                     </div>
@@ -900,7 +919,7 @@
     </div>
 </div>
 <!-- Footer End -->
-
+</div>
 
 <!-- Back to Top -->
 <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
@@ -918,6 +937,20 @@
 
 <!-- Template Javascript -->
 <script src="js/main.js"></script>
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+        var cards = document.querySelectorAll('.clickable-card');
+        cards.forEach(function (card) {
+            card.addEventListener('click', function () {
+                var url = card.getAttribute('data-url');
+                if (url) {
+                    location.href = url;
+                }
+            });
+        });
+    });
+
+</script>
 </body>
 
 </html>

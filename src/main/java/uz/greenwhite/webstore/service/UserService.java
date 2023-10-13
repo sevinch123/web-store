@@ -46,7 +46,7 @@ public class UserService implements UserDetailsService {
     public User update(User seller){
         if(seller.getUserId() == null)
             throw new RuntimeException("Id shouldn't be null");
-
+        seller.setPassword(encoder.encode(seller.getPassword()));
         return repository.save(seller);
     }
 
