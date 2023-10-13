@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import uz.greenwhite.webstore.entity.*;
 import uz.greenwhite.webstore.service.*;
 import org.springframework.ui.Model;
@@ -20,7 +19,6 @@ import org.springframework.data.domain.Pageable;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Controller
 @AllArgsConstructor
@@ -62,7 +60,7 @@ public class ClientController {
                 cartService.update(cart);
             }
         }
-        model.addAttribute("cart", cartService.getAllByToken(getAndSetToken(request, response)));
+        model.addAttribute("carts", cartService.getAllByToken(getAndSetToken(request, response)));
 
 
 
@@ -85,7 +83,7 @@ public class ClientController {
             response.addCookie(new Cookie(tokenName, tokenValue));
         }
 
-        model.addAttribute("cart", cartService.getAllByToken(tokenValue));
+        model.addAttribute("carts", cartService.getAllByToken(tokenValue));
         Page<CompanyDetails> detailsPage = detailsService.getAll(pageable);
         model.addAttribute("details", detailsPage);
         return "/cart";
