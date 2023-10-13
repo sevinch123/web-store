@@ -10,12 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import uz.greenwhite.webstore.entity.*;
 import uz.greenwhite.webstore.service.*;
 import org.springframework.ui.Model;
 import org.springframework.data.domain.Pageable;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -45,36 +47,22 @@ public class ClientController {
         return "index";
     }
 
+    // list
     @GetMapping("/cart")
-    public String cartController(Model model, Pageable pageable,
+    public String cartController(@ModelAttribute(name = "carts") ArrayList<Cart> carts, Model model, Pageable pageable,
                                  HttpServletRequest request,
                                  HttpServletResponse response) {
         Page<Category> page = categoryService.getAll(pageable);
         long elements = page.getTotalElements();
         model.addAttribute("categories", page);
         model.addAttribute("elements", elements);
-
-
-        String tokenName = "session_token";
-        String tokenValue = null;
-        boolean session = false;
-
-        if(request.getCookies() != null) {
-            for (Cookie cookie : request.getCookies()) {
-                if (cookie.getName().equals(tokenName)) {
-                    tokenValue = cookie.getValue();
-                    session = true;
-                    break;
-                }
+        if(carts != null) {
+            for(Cart cart: carts) {
+                cartService.update(cart);
             }
         }
+        model.addAttribute("cart", cartService.getAllByToken(getAndSetToken(request, response)));
 
-        if (!session) {
-            tokenValue = encoder.encode(String.valueOf(Date.from(Instant.now()).getTime()));
-            response.addCookie(new Cookie(tokenName, tokenValue));
-        }
-
-        model.addAttribute("cart", cartService.getAllByToken(tokenValue));
         Page<CompanyDetails> detailsPage = detailsService.getAll(pageable);
         model.addAttribute("details", detailsPage);
         return "/cart";
@@ -93,15 +81,27 @@ public class ClientController {
         return "redirect:/cart";
     }
 
-    @GetMapping("/cart/update")
-    public String updateCart(@ModelAttribute List<Cart> cart, Model model) {
-        for(Cart c: cart) {
-            cartService.update(c);
-        }
-        model.addAttribute(cart);
-        return "redirect:/cart";
-    }
+//    @GetMapping("/cart/update")
+//    public String updateCart(@ModelAttribute List<Cart> cart, Model model) {
+//        for(Cart c: cart) {
+//            cartService.update(c);
+//        }
+//        model.addAttribute(cart);
+//        return "redirect:/cart";
+//    }
 
+    //edit
+//    @PostMapping("/cart")
+//    public String editCart(@ModelAttribute List<Cart> cart, Model model) {
+//        for(Cart c: cart) {
+//            cartService.update(c);
+//        }
+//        model.addAttribute("cart", cart);
+//
+//        return "redirect:/cart";
+//    }
+
+    //delete
     @GetMapping("/cart/delete/{id}")
     public String delete(@PathVariable Long id) {
         cartService.deleteById(id);
@@ -160,11 +160,13 @@ public class ClientController {
         String tokenName = "session_token";
         String tokenValue = null;
         boolean session = false;
-        for (Cookie cookie : request.getCookies()) {
-            if (cookie.getName().equals(tokenName)) {
-                tokenValue = cookie.getValue();
-                session = true;
-                break;
+        if(request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if (cookie.getName().equals(tokenName)) {
+                    tokenValue = cookie.getValue();
+                    session = true;
+                    break;
+                }
             }
         }
 
