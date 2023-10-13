@@ -60,7 +60,7 @@ public class ClientController {
         String tokenValue = null;
         boolean session = false;
 
-        if(request.getCookies() != null) {
+        if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
                 if (cookie.getName().equals(tokenName)) {
                     tokenValue = cookie.getValue();
@@ -96,7 +96,7 @@ public class ClientController {
 
     @GetMapping("/cart/update")
     public String updateCart(@ModelAttribute List<Cart> cart, Model model) {
-        for(Cart c: cart) {
+        for (Cart c : cart) {
             cartService.update(c);
         }
         model.addAttribute(cart);
@@ -122,20 +122,22 @@ public class ClientController {
         return "contact";
     }
 
-    @GetMapping("/detail")
-    public String detailController(Model model, Pageable pageable) {
+    @GetMapping("/product/{productName}-{productId}")
+    public String detailController(@PathVariable String productName, @PathVariable Long productId, Model model, Pageable pageable) {
         Page<Category> page = categoryService.getAll(pageable);
-        long elements = page.getTotalElements();
-        model.addAttribute("categories", page);
-        model.addAttribute("elements", elements);
-        Page<CompanyDetails> detailsPage = detailsService.getAll(pageable);
-        model.addAttribute("details", detailsPage);
+        //long elements = page.getTotalElements();
+        Product productById = productService.getById(productId);
+        if (productById == null) {
+            return "error";
+        }
+        //model.addAttribute("elements", elements);
+        model.addAttribute("product", productById);
         return "detail";
     }
 
     @GetMapping("/shop")
-    public String shopController(@RequestParam(name = "id", required = false) Long categoryId,  Model model, Pageable pageable) {
-        if(categoryId != null) {
+    public String shopController(@RequestParam(name = "id", required = false) Long categoryId, Model model, Pageable pageable) {
+        if (categoryId != null) {
             model.addAttribute("products", productService.getByCategory(categoryId, null));
         } else {
             model.addAttribute("products", productService.getAll(pageable));
@@ -150,7 +152,7 @@ public class ClientController {
         return "shop";
     }
 
-    
+
     @GetMapping("/checkout")
     public String checkoutController(Model model, Pageable pageable) {
         Page<Category> page = categoryService.getAll(pageable);
