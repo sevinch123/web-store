@@ -135,6 +135,7 @@ public class ClientController {
 
     @GetMapping("/shop")
     public String shopController(@RequestParam(name = "id", required = false) Long categoryId,@RequestParam(name = "order", required = false) Long productOrder,  Model model, Pageable pageable) {
+        model.addAttribute("filterCategoryId", categoryId);
         if(categoryId != null) {
             if(productOrder==null)model.addAttribute("products", productService.getByCategory(categoryId,null));
             else if(productOrder==1)model.addAttribute("products",productService.getByCategoryOrderByPriceAsc(categoryId,null));
