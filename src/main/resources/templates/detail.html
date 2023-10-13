@@ -214,9 +214,9 @@
                 <span th:text="${product.quantity == 0} ? 'Not available' : 'In stock: ' + ${product.quantity}"></span>
                 <div th:if="${product.quantity != 0}">
                     <div class="d-flex align-items-center mb-4 pt-2">
-                        <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To
+                        <a th:href="@{'/cart/' + ${product.productId}}" class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To
                             Cart
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
