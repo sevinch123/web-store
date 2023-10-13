@@ -21,11 +21,21 @@ public class ProductService {
     public Page<Product> getAll(Pageable pageable) {
         return repository.findAll(pageable);
     }
-
-    public List<Product> getByCategory(Long categoryId, Pageable pageable) {
+    public Page<Product> getAllByOrderByPriceAsc(Pageable pageable) {
+        return repository.findAllByOrderByPriceAsc(pageable);
+    }
+    public Page<Product> getAllByOrderByPriceDesc(Pageable pageable) {
+        return repository.findAllByOrderByPriceDesc(pageable);
+    }
+    public List<Product> getByCategory(Long categoryId,Pageable pageable) {
         return repository.findAllByCategory(categoryService.getById(categoryId));
     }
-    
+    public List<Product> getByCategoryOrderByPriceAsc(Long categoryId,Pageable pageable) {
+        return repository.findAllByCategoryOrderByPriceAsc(categoryService.getById(categoryId));
+    }
+    public List<Product> getByCategoryOrderByPriceDesc(Long categoryId , Pageable pageable) {
+        return repository.findAllByCategoryOrderByPriceDesc(categoryService.getById(categoryId));
+    }
     public Product getById(Long ID) {
         return repository.findById(ID).orElse(null);
     }

@@ -134,12 +134,15 @@ public class ClientController {
     }
 
     @GetMapping("/shop")
-    public String shopController(@RequestParam(name = "id", required = false) Long categoryId,  Model model, Pageable pageable) {
+    public String shopController(@RequestParam(name = "id", required = false) Long categoryId,@RequestParam(name = "order", required = false) Long productOrder,  Model model, Pageable pageable) {
         if(categoryId != null) {
-            model.addAttribute("products", productService.getByCategory(categoryId, null));
+            if(productOrder==null)model.addAttribute("products", productService.getByCategory(categoryId,null));
+            else if(productOrder==1)model.addAttribute("products",productService.getByCategoryOrderByPriceAsc(categoryId,null));
+            else model.addAttribute("products",productService.getByCategoryOrderByPriceDesc(categoryId, null));
         } else {
-            model.addAttribute("products", productService.getAll(pageable));
-
+            if(productOrder==null) model.addAttribute("products", productService.getAll(pageable));
+            else if(productOrder==1) model.addAttribute("products", productService.getAllByOrderByPriceAsc(pageable));
+            else model.addAttribute("products", productService.getAllByOrderByPriceDesc(pageable));
         }
         Page<Category> page = categoryService.getAll(pageable);
         long elements = page.getTotalElements();
