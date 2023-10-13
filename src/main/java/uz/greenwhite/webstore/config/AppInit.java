@@ -6,9 +6,11 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import uz.greenwhite.webstore.entity.Category;
+import uz.greenwhite.webstore.entity.CompanyDetails;
 import uz.greenwhite.webstore.entity.User;
 import uz.greenwhite.webstore.enums.UserRole;
 import uz.greenwhite.webstore.service.CategoryService;
+import uz.greenwhite.webstore.service.CompanyDetailsService;
 import uz.greenwhite.webstore.service.UserService;
 
 @Component
@@ -16,8 +18,8 @@ import uz.greenwhite.webstore.service.UserService;
 public class AppInit implements ApplicationRunner {
     //
     private final UserService userService;
-    private final PasswordEncoder encoder;
     private final CategoryService categoryService;
+    private final CompanyDetailsService companyDetailsService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -49,8 +51,15 @@ public class AppInit implements ApplicationRunner {
             seller.setPassword("123");
             seller.setIsActive(true);
             userService.save(seller);
+            seller.setPassword("1234");
+            userService.update(seller);
         }
 
+        CompanyDetails details = new CompanyDetails();
+        details.setCompanyName("Chorsu bozor");
+        details.setAddress("Chorsu");
+        details.setPhone1("+99897788888");
+        companyDetailsService.save(details);
 
     }
 }
