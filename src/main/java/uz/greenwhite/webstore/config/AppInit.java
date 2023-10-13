@@ -44,7 +44,6 @@ public class AppInit implements ApplicationRunner {
         productService.save(product);
 
         Product product2 = new Product();
-        product2.setPhoto("2.jpeg");
         product2.setIsActive(true);
         product2.setQuantity(0);
         product2.setName("Webstore");
