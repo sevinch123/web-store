@@ -32,4 +32,5 @@ public class CompanyDetails {
 
     private String locationUrl;
 
+
 }
