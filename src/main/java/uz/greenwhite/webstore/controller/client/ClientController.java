@@ -99,7 +99,7 @@ public class ClientController {
         cart.setProduct(productService.getById(productId));
         cartService.save(cart);
 
-        return "redirect:/cart";
+        return "redirect:/product/" + productService.getById(productId).getName() + "-" + productId;
     }
 
 

@@ -31,12 +31,18 @@ public class ProductService {
     }
 
     public Product update(Product product) {
+        if(product.getQuantity() <= 0) {
+            product.setIsActive(false);
+        }
         return repository.save(product);
     }
 
     public Product save(Product product) {
         if(product.getIsActive() == null)
             product.setIsActive(true);
+        if(product.getQuantity() <= 0) {
+            product.setIsActive(false);
+        }
         return repository.save(product);
     }
 
