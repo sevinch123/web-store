@@ -74,18 +74,21 @@ public class ProductController {
                     updatedProduct.setRemoveQuantity(0);
                 }
                 currentQuantity = (currentQuantity != null) ? currentQuantity + updatedProduct.getAddQuantity() : updatedProduct.getAddQuantity();
-            }
-            else if (updatedProduct.getRemoveQuantity() != null && updatedProduct.getRemoveQuantity() > 0) {
+            } else if (updatedProduct.getRemoveQuantity() != null && updatedProduct.getRemoveQuantity() > 0) {
                 currentQuantity = (currentQuantity != null) ? Math.max(0, currentQuantity - updatedProduct.getRemoveQuantity()) : 0;
             }
 
             originalProduct.setQuantity(currentQuantity);
-            service.update(originalProduct);
+            originalProduct.setDescription(originalProduct.getDescription());
 
             saveFile(originalProduct, file);
-        }
 
-        return "redirect:/admin/data/product";
+            service.update(originalProduct);
+            return "redirect:/admin/data/product";
+        }
+        else {
+            return "errorPage";
+        }
     }
 
 
