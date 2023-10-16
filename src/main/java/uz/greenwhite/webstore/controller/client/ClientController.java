@@ -137,12 +137,43 @@ public class ClientController {
     }
 
     @GetMapping("/shop")
-    public String shopController(@RequestParam(name = "id", required = false) Long categoryId, Model model, Pageable pageable) {
-        if (categoryId != null) {
-            model.addAttribute("products", productService.getByCategory(categoryId, null));
-        } else {
-            model.addAttribute("products", productService.getAll(pageable));
-
+    public String shopController(@RequestParam(name = "id", required = false) Long categoryId,@RequestParam(name = "order", required = false) Long productOrder,
+    @RequestParam(name = "from", required = false) Long productFrom,@RequestParam(name = "to", required = false) Long productTo,  Model model, Pageable pageable) {
+        model.addAttribute("filterCategoryId", categoryId);
+        model.addAttribute("filterFrom", productFrom);
+        model.addAttribute("filterTo", productTo);
+        if(categoryId != null) {
+            if(productFrom!=null&&productTo==null&&productOrder==null)model.addAttribute("products",productService.getAllByCategoryAndPriceGreaterThan(categoryId,productFrom,null));
+            else if(productFrom==null&&productTo!=null&&productOrder==null)model.addAttribute("products",productService.getAllByCategoryAndPriceLessThan(categoryId,productTo,null));
+            else if(productFrom!=null&&productTo!=null&&productOrder==null)model.addAttribute("products",productService.getByCategoryAndPriceBetween(categoryId,productFrom,productTo,null));
+            
+            else if(productFrom!=null&&productTo==null&&productOrder==0)model.addAttribute("products",productService.getAllByCategoryAndPriceGreaterThanOrderByPriceDesc(categoryId,productFrom,null));
+            else if(productFrom==null&&productTo!=null&&productOrder==0)model.addAttribute("products",productService.getAllByCategoryAndPriceLessThanOrderByPriceDesc(categoryId,productTo,null));
+            else if(productFrom!=null&&productTo!=null&&productOrder==0)model.addAttribute("products",productService.getByCategoryAndPriceBetweenOrderByPriceDesc(categoryId,productFrom,productTo,null));
+           
+            else if(productFrom!=null&&productTo==null&&productOrder==1)model.addAttribute("products",productService.getAllByCategoryAndPriceGreaterThanOrderByPriceAsc(categoryId,productFrom,null));
+            else if(productFrom==null&&productTo!=null&&productOrder==1)model.addAttribute("products",productService.getAllByCategoryAndPriceLessThanOrderByPriceAsc(categoryId,productTo,null));
+            else if(productFrom!=null&&productTo!=null&&productOrder==1)model.addAttribute("products",productService.getByCategoryAndPriceBetweenOrderByPriceAsc(categoryId,productFrom,productTo,null));
+           
+            else if(productOrder==null)model.addAttribute("products", productService.getByCategory(categoryId,null));
+            else if(productOrder==1)model.addAttribute("products",productService.getByCategoryOrderByPriceAsc(categoryId,null));
+            else if(productOrder==0)model.addAttribute("products",productService.getByCategoryOrderByPriceDesc(categoryId, null));
+        } else { 
+            if(productFrom!=null&&productTo==null&&productOrder==null)model.addAttribute("products",productService.getAllByPriceGreaterThan(productFrom,null));
+            else if(productFrom==null&&productTo!=null&&productOrder==null)model.addAttribute("products",productService.getAllByPriceLessThan(productTo,null));
+            else if(productFrom!=null&&productTo!=null&&productOrder==null)model.addAttribute("products",productService.getByPriceBetween(productFrom,productTo,null));
+           
+            else if(productFrom!=null&&productTo==null&&productOrder==0)model.addAttribute("products",productService.getAllByPriceGreaterThanOrderByPriceDesc(productFrom,null));
+            else if(productFrom==null&&productTo!=null&&productOrder==0)model.addAttribute("products",productService.getAllByPriceLessThanOrderByPriceDesc(productTo,null));
+            else if(productFrom!=null&&productTo!=null&&productOrder==0)model.addAttribute("products",productService.getByPriceBetweenOrderByPriceDesc(productFrom,productTo,null));
+           
+            else if(productFrom!=null&&productTo==null&&productOrder==1)model.addAttribute("products",productService.getAllByPriceGreaterThanOrderByPriceAsc(productFrom,null));
+            else if(productFrom==null&&productTo!=null&&productOrder==1)model.addAttribute("products",productService.getAllByPriceLessThanOrderByPriceAsc(productTo,null));
+            else if(productFrom!=null&&productTo!=null&&productOrder==1)model.addAttribute("products",productService.getByPriceBetweenOrderByPriceAsc(productFrom,productTo,null));
+           
+            else if(productOrder==null) model.addAttribute("products", productService.getAll(pageable));
+            else if(productOrder==1) model.addAttribute("products", productService.getAllByOrderByPriceAsc(pageable));
+            else if(productOrder==0)model.addAttribute("products", productService.getAllByOrderByPriceDesc(pageable));
         }
         Page<Category> page = categoryService.getAll(pageable);
         long elements = page.getTotalElements();
