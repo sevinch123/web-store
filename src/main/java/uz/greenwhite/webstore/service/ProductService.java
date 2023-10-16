@@ -18,6 +18,79 @@ public class ProductService {
     @Autowired
     CategoryService categoryService;
 
+    public List<Product> getAllByPriceGreaterThanOrderByPriceDesc(Long price,Pageable pageable){
+        return repository.findAllByPriceGreaterThanOrderByPriceDesc(price);
+    }
+
+    public List<Product> getAllByPriceGreaterThanOrderByPriceAsc(Long price,Pageable pageable){
+        return repository.findAllByPriceGreaterThanOrderByPriceAsc(price);
+    }
+
+    public List<Product> getAllByPriceLessThanOrderByPriceDesc(Long price,Pageable pageable){
+        return repository.findAllByPriceLessThanOrderByPriceDesc(price);
+    }
+
+    public List<Product> getAllByPriceLessThanOrderByPriceAsc(Long price,Pageable pageable){
+        return repository.findAllByPriceLessThanOrderByPriceAsc(price);
+    }
+
+    public List<Product> getByPriceBetweenOrderByPriceDesc(Long minPrice, Long maxPrice,Pageable pageable){
+        return repository.findByPriceBetweenOrderByPriceDesc(minPrice,maxPrice);
+    } 
+
+    public List<Product> getByPriceBetweenOrderByPriceAsc(Long minPrice, Long maxPrice,Pageable pageable){
+        return repository.findByPriceBetweenOrderByPriceAsc(minPrice,maxPrice);
+    } 
+    //
+
+    public List<Product> getAllByCategoryAndPriceGreaterThanOrderByPriceDesc(Long categoryId,Long price,Pageable pageable){
+        return repository.findAllByCategoryAndPriceGreaterThanOrderByPriceDesc(categoryService.getById(categoryId),price);
+    }
+
+    public List<Product> getAllByCategoryAndPriceGreaterThanOrderByPriceAsc(Long categoryId,Long price,Pageable pageable){
+        return repository.findAllByCategoryAndPriceGreaterThanOrderByPriceAsc(categoryService.getById(categoryId),price);
+    }
+
+    public List<Product> getAllByCategoryAndPriceLessThanOrderByPriceDesc(Long categoryId,Long price,Pageable pageable){
+        return repository.findAllByCategoryAndPriceLessThanOrderByPriceDesc(categoryService.getById(categoryId),price);
+    }
+
+    public List<Product> getAllByCategoryAndPriceLessThanOrderByPriceAsc(Long categoryId,Long price,Pageable pageable){
+        return repository.findAllByCategoryAndPriceLessThanOrderByPriceAsc(categoryService.getById(categoryId),price);
+    }
+
+    public List<Product> getByCategoryAndPriceBetweenOrderByPriceDesc(Long categoryId,Long minPrice, Long maxPrice,Pageable pageable){
+        return repository.findByCategoryAndPriceBetweenOrderByPriceDesc(categoryService.getById(categoryId),minPrice,maxPrice);
+    } 
+
+    public List<Product> getByCategoryAndPriceBetweenOrderByPriceAsc(Long categoryId,Long minPrice, Long maxPrice,Pageable pageable){
+        return repository.findByCategoryAndPriceBetweenOrderByPriceAsc(categoryService.getById(categoryId),minPrice,maxPrice);
+    } 
+
+    public List<Product> getAllByCategoryAndPriceGreaterThan(Long categoryId,Long price,Pageable pageable){
+        return repository.findAllByCategoryAndPriceGreaterThan(categoryService.getById(categoryId),price);
+    }
+
+    public List<Product> getAllByCategoryAndPriceLessThan(Long categoryId,Long price,Pageable pageable){
+        return repository.findAllByCategoryAndPriceLessThan(categoryService.getById(categoryId),price);
+    }
+
+    public List<Product> getByCategoryAndPriceBetween(Long categoryId,Long minPrice, Long maxPrice,Pageable pageable){
+        return repository.findByCategoryAndPriceBetween(categoryService.getById(categoryId),minPrice,maxPrice);
+    } 
+
+    public List<Product> getAllByPriceGreaterThan(Long price,Pageable pageable){
+        return repository.findAllByPriceGreaterThan(price);
+    }
+    
+    public List<Product> getAllByPriceLessThan(Long price,Pageable pageable){
+        return repository.findAllByPriceLessThan(price);
+    }
+
+    public List<Product> getByPriceBetween(Long minPrice, Long maxPrice,Pageable pageable){
+        return repository.findByPriceBetween(minPrice,maxPrice);
+    } 
+
     public Page<Product> getAll(Pageable pageable) {
         return repository.findAll(pageable);
     }

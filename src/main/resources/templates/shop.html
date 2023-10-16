@@ -202,49 +202,23 @@
         <div class="row px-xl-5">
             <!-- Shop Sidebar Start -->
             <div class="col-lg-3 col-md-4">
-                <!-- Price Start -->
-              <!-- <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter
-                        by price</span></h5>
-                         <div class="bg-light p-4 mb-30">
-                    <form>
-                        <div
-                            class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                            <input type="radio" class="custom-control-input" name="radio" id="price-all">
-                            <label class="custom-control-label" for="price-all">All Price</label>
-                            <span class="badge border font-weight-normal">1000</span>
-                        </div>
-                        <div
-                            class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                            <input type="radio" class="custom-control-input" name="radio" id="price-1">
-                            <label class="custom-control-label" for="price-1">Ascending</label>
-                            <a th:href="@{/shop}" class="nav-item nav-link" >All Product</a>
-                            <span class="badge border font-weight-normal">150</span>
-                        </div>
-                        <div
-                            class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                            <input type="radio" class="custom-control-input" name="radio" id="price-2">
-                            <label class="custom-control-label" for="price-2">Descending</label>
-                            <span class="badge border font-weight-normal">295</span>
-                        </div>
-                      <div
-                            class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-3">
-                            <label class="custom-control-label" for="price-3">$200 - $300</label>
-                            <span class="badge border font-weight-normal">246</span>
-                        </div>
-                        <div
-                            class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-4">
-                            <label class="custom-control-label" for="price-4">$300 - $400</label>
-                            <span class="badge border font-weight-normal">145</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                            <input type="checkbox" class="custom-control-input" id="price-5">
-                            <label class="custom-control-label" for="price-5">$400 - $500</label>
-                            <span class="badge border font-weight-normal">168</span>
-                        </div>
-                    </form>
-                </div>-->
+                <!-- Price Start -->       
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter
+                    by price</span></h5>   
+                    <div class="bg-light p-4 mb-30">
+                        <form method="get" enctype="multipart/form-data" th:action="@{/shop}">
+                            <input type="hidden" name="id" th:value="${filterCategoryId}" />
+                            <div class="form-group">
+                                <label for="minPrice">Minimum Price:</label>
+                                <input type="number" name="from" id="minPrice" class="form-control" placeholder="Enter price" aria-describedby="from">
+                            </div>
+                            <div class="form-group">
+                                <label for="maxPrice">Maximum Price:</label>
+                                <input type="number" name="to" id="maxPrice" class="form-control" placeholder="Enter price" aria-describedby="to">
+                            </div>
+                            <button type="submit" style="background-color: #FFD333;color: black;" class="btn">Filter</button>
+                        </form>
+                    </div>         
                 <!-- Price End -->
 
                 <!-- Color Start -->
@@ -349,9 +323,9 @@
                                     <button type="button" class="btn btn-sm btn-light dropdown-toggle"
                                         data-toggle="dropdown">Sorting</button>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" th:href="@{/shop(id=${filterCategoryId})}">All Prices</a>
-                                        <a class="dropdown-item" th:href="@{/shop(id=${filterCategoryId},order=1)}">Ascending</a>
-                                        <a class="dropdown-item" th:href="@{/shop(id=${filterCategoryId},order=0)}">Descending</a>  
+                                        <a class="dropdown-item" th:href="@{/shop(id=${filterCategoryId},from=${filterFrom},to=${filterTo})}">All Prices</a>
+                                        <a class="dropdown-item" th:href="@{/shop(id=${filterCategoryId},order=1,from=${filterFrom},to=${filterTo})}">Ascending</a>
+                                        <a class="dropdown-item" th:href="@{/shop(id=${filterCategoryId},order=0,from=${filterFrom},to=${filterTo})}">Descending</a>  
                                     </div>
                                 </div>
                                 <div class="btn-group ml-2">
