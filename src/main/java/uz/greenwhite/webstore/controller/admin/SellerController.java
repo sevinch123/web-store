@@ -38,14 +38,25 @@ public class SellerController {
 
     @GetMapping("/edit")
     public String editPage(Model model, @RequestParam("id") Long id) {
-        model.addAttribute("seller", service.getById(id));
+        User seller = service.getById(id);
+        model.addAttribute("seller", seller);
         return "/admin/data/seller/add";
     }
 
     @PostMapping("/edit")
     public String editSeller(@ModelAttribute User seller) {
-        service.update(seller);
-        return "redirect:/admin/data/seller";
+        User existingSeller = service.getById(seller.getUserId());
+
+        if (existingSeller != null) {
+            existingSeller.setUsername(seller.getUsername());
+            existingSeller.setPassword(seller.getPassword());
+
+            service.update(existingSeller);
+
+            return "redirect:/admin/data/seller";
+        } else {
+            return "errorPage";
+        }
     }
 
     @GetMapping("delete/{id}")

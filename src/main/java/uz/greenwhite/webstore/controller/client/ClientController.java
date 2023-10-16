@@ -17,8 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.data.domain.Pageable;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Controller
 @AllArgsConstructor
@@ -46,21 +46,29 @@ public class ClientController {
         return "index";
     }
 
+    // list
     @GetMapping("/cart")
-    public String cartController(Model model, Pageable pageable,
+    public String cartController(@ModelAttribute(name = "carts") ArrayList<Cart> carts, Model model, Pageable pageable,
                                  HttpServletRequest request,
                                  HttpServletResponse response) {
         Page<Category> page = categoryService.getAll(pageable);
         long elements = page.getTotalElements();
         model.addAttribute("categories", page);
         model.addAttribute("elements", elements);
+        if(carts != null) {
+            for(Cart cart: carts) {
+                cartService.update(cart);
+            }
+        }
+        model.addAttribute("carts", cartService.getAllByToken(getAndSetToken(request, response)));
+
 
 
         String tokenName = "session_token";
         String tokenValue = null;
         boolean session = false;
 
-        if(request.getCookies() != null) {
+        if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
                 if (cookie.getName().equals(tokenName)) {
                     tokenValue = cookie.getValue();
@@ -75,7 +83,7 @@ public class ClientController {
             response.addCookie(new Cookie(tokenName, tokenValue));
         }
 
-        model.addAttribute("cart", cartService.getAllByToken(tokenValue));
+        model.addAttribute("carts", cartService.getAllByToken(tokenValue));
         Page<CompanyDetails> detailsPage = detailsService.getAll(pageable);
         model.addAttribute("details", detailsPage);
         return "/cart";
@@ -91,18 +99,11 @@ public class ClientController {
         cart.setProduct(productService.getById(productId));
         cartService.save(cart);
 
-        return "redirect:/cart";
+        return "redirect:/product/" + productService.getById(productId).getName() + "-" + productId;
     }
 
-    @GetMapping("/cart/update")
-    public String updateCart(@ModelAttribute List<Cart> cart, Model model) {
-        for(Cart c: cart) {
-            cartService.update(c);
-        }
-        model.addAttribute(cart);
-        return "redirect:/cart";
-    }
 
+    //delete
     @GetMapping("/cart/delete/{id}")
     public String delete(@PathVariable Long id) {
         cartService.deleteById(id);
@@ -122,14 +123,16 @@ public class ClientController {
         return "contact";
     }
 
-    @GetMapping("/detail")
-    public String detailController(Model model, Pageable pageable) {
+    @GetMapping("/product/{productName}-{productId}")
+    public String detailController(@PathVariable String productName, @PathVariable Long productId, Model model, Pageable pageable) {
         Page<Category> page = categoryService.getAll(pageable);
-        long elements = page.getTotalElements();
-        model.addAttribute("categories", page);
-        model.addAttribute("elements", elements);
-        Page<CompanyDetails> detailsPage = detailsService.getAll(pageable);
-        model.addAttribute("details", detailsPage);
+        //long elements = page.getTotalElements();
+        Product productById = productService.getById(productId);
+        if (productById == null) {
+            return "error";
+        }
+        //model.addAttribute("elements", elements);
+        model.addAttribute("product", productById);
         return "detail";
     }
 
@@ -181,7 +184,7 @@ public class ClientController {
         return "shop";
     }
 
-    
+
     @GetMapping("/checkout")
     public String checkoutController(Model model, Pageable pageable) {
         Page<Category> page = categoryService.getAll(pageable);
@@ -197,11 +200,13 @@ public class ClientController {
         String tokenName = "session_token";
         String tokenValue = null;
         boolean session = false;
-        for (Cookie cookie : request.getCookies()) {
-            if (cookie.getName().equals(tokenName)) {
-                tokenValue = cookie.getValue();
-                session = true;
-                break;
+        if(request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if (cookie.getName().equals(tokenName)) {
+                    tokenValue = cookie.getValue();
+                    session = true;
+                    break;
+                }
             }
         }
 

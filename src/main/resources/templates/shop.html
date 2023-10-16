@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="utf-8">
@@ -341,21 +341,23 @@
                         </div>
                     </div>
                 </div>
-                
-                <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
-                        <div style="width: 30%; margin-bottom: 20px; border: 1px solid #ccc;background-color: #ffffff; padding: 10px;"th:each="list:${products}">
+
+                <div class="row">
+                    <div  class="col-lg-4 col-sm-6" th:each="list:${products}">
+                        <div class="card mb-3 card-shadow clickable-card" th:attr="data-url='/product/' + ${list.name + '-' + list.productId}" >
                             <div class="product-img position-relative overflow-hidden">
-                                <img class="img-fluid w-100" th:src="@{|/admin/data/product/image/${list.productId}|}"
-                                    alt="rasm" />
+                                <img class="img-fluid card-img-top w-100" th:src="@{|/admin/data/product/image/${list.productId}|}"
+                                     alt="rasm"/>
                                 <div class="product-action">
                                     <a class="btn btn-outline-dark btn-square" href=""><i
                                             class="fa fa-shopping-cart"></i></a>
                                     <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                                    <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
+                                    <a class="btn btn-outline-dark btn-square" href=""><i
+                                            class="fa fa-sync-alt"></i></a>
                                     <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
                                 </div>
                             </div>
-                            <div class="text-center py-4" >
+                            <div class="text-center card-body py-4">
                                 <h5 th:text="${list.name}"></h5>
                                 <div class="d-flex align-items-center justify-content-center mt-2">
                                     <h6 th:text="${list.price} + ' so&rsquo;m'"></h6>
@@ -369,7 +371,8 @@
                                     <small>(99)</small>
                                 </div>
                             </div>
-                        </div>                               
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- Shop Product End -->
@@ -488,6 +491,19 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+    <script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+        var cards = document.querySelectorAll('.clickable-card');
+        cards.forEach(function (card) {
+            card.addEventListener('click', function () {
+                var url = card.getAttribute('data-url');
+                if (url) {
+                    location.href = url;
+                }
+            });
+        });
+    });
+</script>
 </body>
 
 </html>

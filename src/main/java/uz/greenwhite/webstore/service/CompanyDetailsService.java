@@ -1,5 +1,6 @@
 package uz.greenwhite.webstore.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +18,7 @@ public class CompanyDetailsService {
     }
 
     public CompanyDetails getById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
+        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("CompanyDetails not found for ID: " + id));
     }
     
     public CompanyDetails save(CompanyDetails details) {
