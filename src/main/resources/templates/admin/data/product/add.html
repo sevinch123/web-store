@@ -110,7 +110,7 @@
 
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea id="description" required th:field="*{description}"></textarea>
+                        <textarea id="description" name="description" required th:field="*{description}"></textarea>
 
                         <div class="form-group" data-style="btn-primary" data-width="fit"
                              th:if="${product.productId} != null">

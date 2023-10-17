@@ -3,12 +3,12 @@ package uz.greenwhite.webstore.controller.admin;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import uz.greenwhite.webstore.entity.Category;
 import uz.greenwhite.webstore.entity.Product;
 import uz.greenwhite.webstore.service.CategoryService;
 import uz.greenwhite.webstore.service.ProductService;
@@ -64,31 +64,22 @@ public class ProductController {
     @PostMapping("/edit")
     public String editProduct(@ModelAttribute Product updatedProduct, @RequestParam("file") MultipartFile file) throws IOException {
         Product originalProduct = service.getById(updatedProduct.getProductId());
-        originalProduct.setIsActive(updatedProduct.getIsActive());
-
-        if (originalProduct != null) {
-            Integer currentQuantity = originalProduct.getQuantity();
-            if (updatedProduct.getAddQuantity() != null && updatedProduct.getAddQuantity() > 0) {
-                if (updatedProduct.getRemoveQuantity() != null && updatedProduct.getRemoveQuantity() > 0) {
-                    updatedProduct.setAddQuantity(updatedProduct.getAddQuantity() - updatedProduct.getRemoveQuantity());
-                    updatedProduct.setRemoveQuantity(0);
-                }
-                currentQuantity = (currentQuantity != null) ? currentQuantity + updatedProduct.getAddQuantity() : updatedProduct.getAddQuantity();
-            } else if (updatedProduct.getRemoveQuantity() != null && updatedProduct.getRemoveQuantity() > 0) {
-                currentQuantity = (currentQuantity != null) ? Math.max(0, currentQuantity - updatedProduct.getRemoveQuantity()) : 0;
+        Integer currentQuantity = originalProduct.getQuantity();
+        if (updatedProduct.getAddQuantity() != null && updatedProduct.getAddQuantity() > 0) {
+            if (updatedProduct.getRemoveQuantity() != null && updatedProduct.getRemoveQuantity() > 0) {
+                updatedProduct.setAddQuantity(updatedProduct.getAddQuantity() - updatedProduct.getRemoveQuantity());
+                updatedProduct.setRemoveQuantity(0);
             }
-
-            originalProduct.setQuantity(currentQuantity);
-            originalProduct.setDescription(originalProduct.getDescription());
-
-            saveFile(originalProduct, file);
-
-            service.update(originalProduct);
-            return "redirect:/admin/data/product";
+            currentQuantity = (currentQuantity != null) ? currentQuantity + updatedProduct.getAddQuantity() : updatedProduct.getAddQuantity();
+        } else if (updatedProduct.getRemoveQuantity() != null && updatedProduct.getRemoveQuantity() > 0) {
+            currentQuantity = (currentQuantity != null) ? Math.max(0, currentQuantity - updatedProduct.getRemoveQuantity()) : 0;
         }
-        else {
-            return "errorPage";
-        }
+
+        BeanUtils.copyProperties(updatedProduct, originalProduct, "productId");
+        originalProduct.setQuantity(currentQuantity);
+        saveFile(originalProduct, file);
+
+        return "redirect:/admin/data/product";
     }
 
 
@@ -123,12 +114,11 @@ public class ProductController {
                         response.getWriter().write(c);
                     }
                 } finally {
-                    if (inputStream != null)
-                        try {
-                            inputStream.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                    if (inputStream != null) try {
+                        inputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     response.getWriter().close();
                 }
             } catch (IOException e) {
