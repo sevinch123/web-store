@@ -25,7 +25,7 @@
 		<div class="col-md-6 offset-md-3">
 
 			<div th:if="${param.error}">
-				<div class="alert alert-danger">Invalid Username or Password</div>
+				<div class="alert alert-danger">Invalid Username or Password, or the account is deactivated.</div>
 			</div>
 			<div th:if="${param.logout}">
 				<div class="alert alert-success"> You have been logged out.</div>
