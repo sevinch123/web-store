@@ -5,7 +5,10 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import uz.greenwhite.webstore.enums.OrderStatus;
+
+import java.util.Date;
 
 @Entity
 @Data
@@ -32,5 +35,8 @@ public class Orders {
     @ManyToOne
     @JoinColumn(name = "modefiedBy")
     private User modifiedBy;
+
+    @CreationTimestamp
+    private Date createdOn;
 
 }

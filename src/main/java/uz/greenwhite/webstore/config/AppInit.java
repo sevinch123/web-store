@@ -5,15 +5,10 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import uz.greenwhite.webstore.entity.Category;
-import uz.greenwhite.webstore.entity.Product;
-import uz.greenwhite.webstore.entity.CompanyDetails;
-import uz.greenwhite.webstore.entity.User;
+import uz.greenwhite.webstore.entity.*;
+import uz.greenwhite.webstore.enums.OrderStatus;
 import uz.greenwhite.webstore.enums.UserRole;
-import uz.greenwhite.webstore.service.CategoryService;
-import uz.greenwhite.webstore.service.ProductService;
-import uz.greenwhite.webstore.service.CompanyDetailsService;
-import uz.greenwhite.webstore.service.UserService;
+import uz.greenwhite.webstore.service.*;
 
 @Component
 @AllArgsConstructor
@@ -24,6 +19,7 @@ public class AppInit implements ApplicationRunner {
 
     private final ProductService productService;
     private final CompanyDetailsService companyDetailsService;
+    private final OrderService orderService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -54,8 +50,8 @@ public class AppInit implements ApplicationRunner {
         product2.setCategory(category);
         productService.save(product2);
 
+        User admin = new User();
         if (userService.findByUsername("admin").isEmpty()) {
-            User admin = new User();
             admin.setFirstName("Ilon");
             admin.setLastName("Mask");
             admin.setRole(UserRole.MODERATOR);
@@ -83,6 +79,15 @@ public class AppInit implements ApplicationRunner {
         details.setAddress("Chorsu");
         details.setPhone1("+99897788888");
         companyDetailsService.save(details);
+
+        Orders order = new Orders();
+        order.setComment("asda");
+        order.setStatus(OrderStatus.NEW_ORDER);
+        order.setCustomerName("Laziz");
+        order.setModifiedBy(admin);
+        order.setPhoneNumber("1242112");
+
+        orderService.save(order);
 
     }
 }
