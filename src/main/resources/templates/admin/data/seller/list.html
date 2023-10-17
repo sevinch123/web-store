@@ -60,9 +60,18 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    Are you sure you want to delete the seller <span class="alert-danger"
+                                    Are you sure you want to delete user <span class="alert-danger"
                                                                                      th:text="${seller.firstName}"></span>?
                                 </div>
+
+                                <div class="modal-body">
+                                    <small>  <span style="font-weight: bold;"> If there are no </span> orders with this user, the user's account will be completely deleted.</small>
+                                </div>
+
+                                <div class="modal-body">
+                                    <small>   <span style="font-weight: bold;"> If there are </span> orders with this user, the user's account will not be deleted, and their account status will be changed to 'passive'.</small>
+                                </div>
+
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     <a th:href="@{'/admin/data/seller/delete/' + ${seller.userId}}" type="button"
