@@ -83,11 +83,38 @@ public class AppInit implements ApplicationRunner {
         Orders order = new Orders();
         order.setComment("asda");
         order.setStatus(OrderStatus.NEW_ORDER);
-        order.setCustomerName("Laziz");
+        order.setFirstName("Laziz");
+        order.setLastName("Laziz");
         order.setModifiedBy(admin);
         order.setPhoneNumber("1242112");
-
         orderService.save(order);
+
+        Orders order1 = new Orders();
+        order1.setComment("asda");
+        order1.setStatus(OrderStatus.WAITING);
+        order1.setFirstName("Laziz");
+        order1.setLastName("Aziz");
+        order1.setModifiedBy(admin);
+        order1.setPhoneNumber("1242112");
+        orderService.save(order1);
+
+        Orders order2 = new Orders();
+        order2.setComment("asda");
+        order2.setStatus(OrderStatus.SUCCESS);
+        order2.setFirstName("Laziz");
+        order2.setLastName("Aziz");
+        order2.setModifiedBy(admin);
+        order2.setPhoneNumber("1242112");
+        orderService.save(order2);
+
+        Orders order3 = new Orders();
+        order3.setComment("asda");
+        order3.setStatus(OrderStatus.NEW_ORDER);
+        order3.setFirstName("Laziz");
+        order3.setLastName("Aziz");
+        order3.setModifiedBy(admin);
+        order3.setPhoneNumber("1000000");
+        orderService.save(order3);
 
     }
 }

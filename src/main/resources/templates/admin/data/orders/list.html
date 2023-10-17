@@ -16,6 +16,25 @@
     <div class="content-wrapper py-2">
         <div class="container">
             <h3 class="text-center">Orders List</h3>
+            <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-primary dropdown-toggle"
+                    data-toggle="dropdown">Filter</button>
+                <div class="dropdown-menu dropdown-menu">
+                    <a class="dropdown-item" th:href="@{/admin/data/orders(status=${orderStatus},filterOrders=1)}">Ascending</a>
+                    <a class="dropdown-item" th:href="@{/admin/data/orders(status=${orderStatus},filterOrders=0)}">Descending</a>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-primary dropdown-toggle"
+                    data-toggle="dropdown">Sorting</button>
+                <div class="dropdown-menu dropdown-menu-left">
+                    <a class="dropdown-item" th:href="@{/admin/data/orders}">All</a>
+                    <a class="dropdown-item" th:href="@{/admin/data/orders(status=NEW_ORDER)}">New order</a>
+                    <a class="dropdown-item" th:href="@{/admin/data/orders(status=WAITING)}">Waiting</a>
+                    <a class="dropdown-item" th:href="@{/admin/data/orders(status=SUCCESS)}">Success</a>  
+                    <a class="dropdown-item" th:href="@{/admin/data/orders(status=CANCELED)}">Canceled</a>  
+                </div>
+            </div>
             <table class="table table-bordered table-inverse mt-3 table-responsive-sm">
                 <thead class="thead-inverse">
                 <thead class="thead-inverse mt-3 ">
@@ -23,28 +42,17 @@
                     <th>ID</th>
                     <th>NAME</th>
                     <th>PHONE</th>
-                    <th>COMMENT</th>
                     <th>STATUS</th>
+                    <th>MODIFIED BY</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="item: ${orders}">
                     <td scope="row" th:text="${item.orderId}"></td>
-                    <td th:text="${item.customerName}"></td>
+                    <td th:text="${item.firstName} + ' ' + ${item.lastName}"></td>
                     <td th:text="${item.phoneNumber}"></td>
                     <td th:text="${item.status}"></td>  
-                    <td th:text="${item.modifiedBy}"></td>
-
-                    <td>
-                        <a name="" id="" class="btn btn-primary" href="#"
-                           th:href="@{/admin/data/orders/edit(id=${item.orderId})}" role="button">
-                            <i class="fa fa-pen" aria-hidden="true"></i>
-                        </a>
-                        <button type="button" class="btn btn-danger" data-toggle="modal"
-                                th:data-target="${'#id'+item.orderId}">
-                            <i class="fa fa-trash" aria-hidden="true"></i>
-                        </button>
-                    </td>
+                    <td th:text="${item.modifiedBy.firstName} + ' ' + ${item.modifiedBy.lastName}" ></td>
                 </tr>
                 </tbody>
             </table>
