@@ -17,8 +17,19 @@ public class OrdersController {
     private final OrderService service;
 
     @GetMapping()
-    public String listPage(Model model, Pageable pageable) {
-        model.addAttribute("orders", service.getAll(pageable));
+    public String listPage(@RequestParam(name = "status", required = false) OrderStatus orderStatus,@RequestParam(name = "filterOrders", required = false) Long filterOrders,Model model, Pageable pageable) {
+    model.addAttribute("orderStatus",orderStatus);
+        if(orderStatus==null){
+        if(filterOrders==null)
+         model.addAttribute("orders", service.getAll(pageable));
+         else if(filterOrders==1) model.addAttribute("orders",service.getAllByOrderByCreatedOnAsc(pageable));
+         else if(filterOrders==0) model.addAttribute("orders",service.getAllByOrderByCreatedOnDesc(pageable));
+        }
+        else{
+        if(filterOrders==null) model.addAttribute("orders",service.getAllOrdersByStatus(orderStatus)); 
+        else if(filterOrders==1) model.addAttribute("orders",service.getAllByStatusOrderByCreatedOnAsc(orderStatus));
+        else if(filterOrders==0) model.addAttribute("orders",service.getAllByStatusOrderByCreatedOnDesc(orderStatus));
+        }
         return "/admin/data/orders/list";
     }
 
