@@ -48,9 +48,12 @@ public class SellerController {
         User existingSeller = service.getById(seller.getUserId());
 
         if (existingSeller != null) {
+            existingSeller.setFirstName(seller.getFirstName());
+            existingSeller.setLastName(seller.getLastName());
             existingSeller.setUsername(seller.getUsername());
             existingSeller.setPassword(seller.getPassword());
-
+            existingSeller.setIsActive(seller.getIsActive());
+            existingSeller.setRole(seller.getRole());
             service.update(existingSeller);
 
             return "redirect:/admin/data/seller";
@@ -71,3 +74,4 @@ public class SellerController {
         return "redirect:/admin/data/seller";
     }
 }
+// hillo

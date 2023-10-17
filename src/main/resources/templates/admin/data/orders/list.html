@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{admin/commons::head}"></head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <!-- Navbar -->
+    <div th:replace="~{admin/commons::header}"></div>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside th:replace="~{admin/commons::aside}"></aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <!-- /.content-wrapper -->
+    <div class="content-wrapper py-2">
+        <div class="container">
+            <h3 class="text-center">Orders List</h3>
+            <table class="table table-bordered table-inverse mt-3 table-responsive-sm">
+                <thead class="thead-inverse">
+                <thead class="thead-inverse mt-3 ">
+                <tr>
+                    <th>ID</th>
+                    <th>NAME</th>
+                    <th>PHONE</th>
+                    <th>COMMENT</th>
+                    <th>STATUS</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item: ${orders}">
+                    <td scope="row" th:text="${item.orderId}"></td>
+                    <td th:text="${item.customerName}"></td>
+                    <td th:text="${item.phoneNumber}"></td>
+                    <td th:text="${item.status}"></td>  
+                    <td th:text="${item.modifiedBy}"></td>
+
+                    <td>
+                        <a name="" id="" class="btn btn-primary" href="#"
+                           th:href="@{/admin/data/orders/edit(id=${item.orderId})}" role="button">
+                            <i class="fa fa-pen" aria-hidden="true"></i>
+                        </a>
+                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                                th:data-target="${'#id'+item.orderId}">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Main Footer -->
+    <footer th:replace="~{admin/commons::footer}"></footer>
+</div>
+
+</div>
+<th:block th:replace="~{admin/commons::scripts}"></th:block>
+</body>
+</html>
