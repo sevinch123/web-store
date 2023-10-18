@@ -83,7 +83,8 @@ public class AppInit implements ApplicationRunner {
         Orders order = new Orders();
         order.setComment("asda");
         order.setStatus(OrderStatus.NEW_ORDER);
-        order.setCustomerName("Laziz");
+        order.setCustomerFirstName("Laziz");
+        order.setCustomerLastName("Khan");
         order.setModifiedBy(admin);
         order.setPhoneNumber("1242112");
 

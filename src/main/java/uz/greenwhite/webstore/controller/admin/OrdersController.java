@@ -1,5 +1,7 @@
 package uz.greenwhite.webstore.controller.admin;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -8,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import uz.greenwhite.webstore.entity.Orders;
 import uz.greenwhite.webstore.enums.OrderStatus;
 import uz.greenwhite.webstore.service.OrderService;
+import uz.greenwhite.webstore.util.CookieUtil;
+
+import java.util.Objects;
 
 @Controller
 @AllArgsConstructor
@@ -29,8 +34,8 @@ public class OrdersController {
     }
 
     @PostMapping("/add")
-    public String addOrder(@ModelAttribute Orders orders) {
-        service.save(orders);
+    public String addOrder(@ModelAttribute Orders orders, HttpServletRequest request) {
+        service.saveNewOrder(orders, Objects.requireNonNull(CookieUtil.getCookie("session_token", request)).getValue());
         return "redirect:/admin/data/orders";
     }
 
