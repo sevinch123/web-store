@@ -83,8 +83,8 @@ public class AppInit implements ApplicationRunner {
         Orders order = new Orders();
         order.setComment("asda");
         order.setStatus(OrderStatus.NEW_ORDER);
-        order.setFirstName("Laziz");
-        order.setLastName("Laziz");
+        order.setFirstName("Abdukarim");
+        order.setLastName("========");
         order.setModifiedBy(admin);
         order.setPhoneNumber("1242112");
         orderService.save(order);
@@ -92,7 +92,7 @@ public class AppInit implements ApplicationRunner {
         Orders order1 = new Orders();
         order1.setComment("asda");
         order1.setStatus(OrderStatus.WAITING);
-        order1.setFirstName("Laziz");
+        order1.setFirstName("Afzalbek");
         order1.setLastName("Aziz");
         order1.setModifiedBy(admin);
         order1.setPhoneNumber("1242112");
@@ -101,7 +101,7 @@ public class AppInit implements ApplicationRunner {
         Orders order2 = new Orders();
         order2.setComment("asda");
         order2.setStatus(OrderStatus.SUCCESS);
-        order2.setFirstName("Laziz");
+        order2.setFirstName("Doston");
         order2.setLastName("Aziz");
         order2.setModifiedBy(admin);
         order2.setPhoneNumber("1242112");
@@ -110,7 +110,7 @@ public class AppInit implements ApplicationRunner {
         Orders order3 = new Orders();
         order3.setComment("asda");
         order3.setStatus(OrderStatus.NEW_ORDER);
-        order3.setFirstName("Laziz");
+        order3.setFirstName("Shaxrizoda");
         order3.setLastName("Aziz");
         order3.setModifiedBy(admin);
         order3.setPhoneNumber("1000000");

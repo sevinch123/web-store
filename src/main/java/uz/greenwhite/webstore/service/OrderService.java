@@ -67,6 +67,9 @@ public class OrderService {
     public void saveNewOrder(Orders order, String token) {
         ArrayList<Cart> carts = cartService.getAllByToken(token);
         OrderItem item = new OrderItem();
+        order.setStatus(OrderStatus.NEW_ORDER);
+        if(carts.isEmpty())
+            return;
 
         for(Cart cart: carts) {
             item.setOrders(order);
@@ -74,7 +77,7 @@ public class OrderService {
             item.setProduct(cart.getProduct());
             orderItemService.save(item);
         }
-        save(order);
+
     }
 
     public void deleteById(Long id) {
