@@ -187,7 +187,9 @@ public class ClientController {
 
 
     @GetMapping("/checkout")
-    public String checkoutController(Model model, Pageable pageable) {
+    public String checkoutController(Model model, Pageable pageable,
+                                     HttpServletRequest request,
+                                     HttpServletResponse response) {
         Page<Category> page = categoryService.getAll(pageable);
         long elements = page.getTotalElements();
         model.addAttribute("order", new Orders());
@@ -195,6 +197,7 @@ public class ClientController {
         model.addAttribute("elements", elements);
         Page<CompanyDetails> detailsPage = detailsService.getAll(pageable);
         model.addAttribute("details", detailsPage);
+        model.addAttribute("carts", cartService.getAllByToken(getAndSetToken(request, response)));
         return "checkout";
     }
 

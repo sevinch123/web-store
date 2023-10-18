@@ -8,6 +8,9 @@ import uz.greenwhite.webstore.entity.Cart;
 import uz.greenwhite.webstore.entity.OrderItem;
 import uz.greenwhite.webstore.entity.Orders;
 import uz.greenwhite.webstore.repository.OrderRepository;
+import uz.greenwhite.webstore.enums.OrderStatus;
+
+import java.util.List;
 
 import java.util.ArrayList;
 
@@ -19,6 +22,26 @@ public class OrderService {
     private final CartService cartService;
     private final OrderItemService orderItemService;
 //    private final OrderService orderService;
+
+    public List<Orders> getAllOrdersByStatus(OrderStatus status){
+        return repository.findAllByStatus(status);
+    }
+
+    public List<Orders> getAllByStatusOrderByCreatedOnAsc(OrderStatus status) {
+        return repository.findAllByStatusOrderByCreatedOnAsc(status);
+    }
+
+    public List<Orders> getAllByStatusOrderByCreatedOnDesc(OrderStatus status) {
+        return repository.findAllByStatusOrderByCreatedOnDesc(status);
+    }
+
+    public Page<Orders> getAllByOrderByCreatedOnAsc(Pageable pageable) {
+        return repository.findAllByOrderByCreatedOnAsc(pageable);
+    }
+
+    public Page<Orders> getAllByOrderByCreatedOnDesc(Pageable pageable) {
+        return repository.findAllByOrderByCreatedOnDesc(pageable);
+    }
 
     public Page<Orders> getAll(Pageable pageable) {
         return repository.findAll(pageable);
