@@ -49,18 +49,13 @@ public class ClientController {
 
     // list
     @GetMapping("/cart")
-    public String cartController(@ModelAttribute(name = "carts") ArrayList<Cart> carts, Model model, Pageable pageable,
+    public String cartController(Model model, Pageable pageable,
                                  HttpServletRequest request,
                                  HttpServletResponse response) {
         Page<Category> page = categoryService.getAll(pageable);
         long elements = page.getTotalElements();
         model.addAttribute("categories", page);
         model.addAttribute("elements", elements);
-        if(carts != null) {
-            for(Cart cart: carts) {
-                cartService.update(cart);
-            }
-        }
         model.addAttribute("carts", cartService.getAllByToken(getAndSetToken(request, response)));
 
 
@@ -88,6 +83,17 @@ public class ClientController {
         Page<CompanyDetails> detailsPage = detailsService.getAll(pageable);
         model.addAttribute("details", detailsPage);
         return "/cart";
+    }
+
+    @PostMapping("/cart")
+    public String updateCart(@ModelAttribute(name = "carts") ArrayList<Cart> carts) {
+        if(carts != null) {
+            for(Cart cart: carts) {
+                cartService.update(cart);
+            }
+        }
+
+        return "redirect:/cart";
     }
 
     @GetMapping("/cart/{productId}")
