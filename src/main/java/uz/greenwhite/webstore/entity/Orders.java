@@ -21,9 +21,9 @@ public class Orders {
     private Long orderId;
 
     @Size(max = 20)
-    private String customerFirstName;
+    private String firstName;
 
-    private String customerLastName;
+    private String lastName;
 
     @Size(max = 18) // +998-99-999-99-99
     private String phoneNumber;
