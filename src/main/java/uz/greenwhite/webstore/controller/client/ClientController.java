@@ -7,18 +7,17 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 import uz.greenwhite.webstore.entity.*;
 import uz.greenwhite.webstore.service.*;
 import org.springframework.ui.Model;
 import org.springframework.data.domain.Pageable;
+import uz.greenwhite.webstore.util.CookieUtil;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 @Controller
 @AllArgsConstructor
@@ -32,6 +31,8 @@ public class ClientController {
     private final CartService cartService;
 
     private final PasswordEncoder encoder;
+
+    private final OrderService orderService;
 
     @GetMapping
     public String list(Model model, Pageable pageable) {
@@ -48,18 +49,13 @@ public class ClientController {
 
     // list
     @GetMapping("/cart")
-    public String cartController(@ModelAttribute(name = "carts") ArrayList<Cart> carts, Model model, Pageable pageable,
+    public String cartController(Model model, Pageable pageable,
                                  HttpServletRequest request,
                                  HttpServletResponse response) {
         Page<Category> page = categoryService.getAll(pageable);
         long elements = page.getTotalElements();
         model.addAttribute("categories", page);
         model.addAttribute("elements", elements);
-        if(carts != null) {
-            for(Cart cart: carts) {
-                cartService.update(cart);
-            }
-        }
         model.addAttribute("carts", cartService.getAllByToken(getAndSetToken(request, response)));
 
 
@@ -87,6 +83,17 @@ public class ClientController {
         Page<CompanyDetails> detailsPage = detailsService.getAll(pageable);
         model.addAttribute("details", detailsPage);
         return "/cart";
+    }
+
+    @PostMapping("/cart")
+    public String updateCart(@ModelAttribute(name = "carts") ArrayList<Cart> carts) {
+        if(carts != null) {
+            for(Cart cart: carts) {
+                cartService.update(cart);
+            }
+        }
+
+        return "redirect:/cart";
     }
 
     @GetMapping("/cart/{productId}")
@@ -186,15 +193,27 @@ public class ClientController {
 
 
     @GetMapping("/checkout")
-    public String checkoutController(Model model, Pageable pageable) {
+    public String checkoutController(Model model, Pageable pageable,
+                                     HttpServletRequest request,
+                                     HttpServletResponse response) {
         Page<Category> page = categoryService.getAll(pageable);
         long elements = page.getTotalElements();
+        model.addAttribute("order", new Orders());
         model.addAttribute("categories", page);
         model.addAttribute("elements", elements);
         Page<CompanyDetails> detailsPage = detailsService.getAll(pageable);
         model.addAttribute("details", detailsPage);
+        model.addAttribute("carts", cartService.getAllByToken(getAndSetToken(request, response)));
         return "checkout";
     }
+
+    @PostMapping("/checkout")
+    public String placeOrder(@ModelAttribute(name = "order") Orders order,  HttpServletRequest request) {
+        orderService.saveNewOrder(order, Objects.requireNonNull(CookieUtil.getCookie("session_token", request)).getValue());
+
+        return "redirect:/shop";
+    }
+
 
     public String getAndSetToken(HttpServletRequest request, HttpServletResponse response) {
         String tokenName = "session_token";

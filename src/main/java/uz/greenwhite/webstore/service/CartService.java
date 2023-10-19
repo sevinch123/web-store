@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import uz.greenwhite.webstore.entity.Cart;
 import uz.greenwhite.webstore.repository.CartRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,8 +20,8 @@ public class CartService {
         return repository.findAll(pageable);
     }
 
-    public List<Cart> getAllByToken(String token) {
-        return repository.findAllByToken(token);
+    public ArrayList<Cart> getAllByToken(String token) {
+        return (ArrayList<Cart>) repository.findAllByToken(token);
     }
 
     public boolean isExist(Cart cart) {

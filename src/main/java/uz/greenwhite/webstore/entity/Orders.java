@@ -23,11 +23,12 @@ public class Orders {
     @Size(max = 20)
     private String firstName;
 
-    @Size(max = 20)
     private String lastName;
 
     @Size(max = 18) // +998-99-999-99-99
     private String phoneNumber;
+
+    private String address;
 
     private String comment;
 

@@ -125,8 +125,6 @@ public class ProductController {
                 e.printStackTrace();
 
             }
-        } else {
-            throw new RuntimeException("File not exist");
         }
 
     }
