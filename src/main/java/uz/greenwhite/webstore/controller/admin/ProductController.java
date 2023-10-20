@@ -43,9 +43,13 @@ public class ProductController {
     @PostMapping("/add")
     public String addProduct(@ModelAttribute Product product, @RequestParam("file") MultipartFile file) throws IOException {
         product = service.save(product);
-        ImageUtil.saveImage(
+
+        product.setPhoto(ImageUtil.saveImage(
                 product.getClass().getSimpleName(),
-                product.getProductId().toString(), file);
+                product.getProductId().toString(), file));
+
+        service.update(product);
+
         return "redirect:/admin/data/product";
     }
 
