@@ -21,21 +21,29 @@ public class AppInit implements ApplicationRunner {
     private final ProductService productService;
     private final CompanyDetailsService companyDetailsService;
     private final OrderService orderService;
+    private final OrderItemService orderItemService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        Category category1 = new Category();
-        category1.setCategoryName("Mebel");
-        category1.setIsActive(false);
-        categoryService.save(category1);
         Faker faker =new Faker();
+
+        User admin = new User();
+        if (userService.findByUsername("admin").isEmpty()) {
+            admin.setFirstName(faker.name().firstName());
+            admin.setLastName(faker.name().lastName());   
+            admin.setRole(UserRole.MODERATOR);
+            admin.setUsername("admin");
+            admin.setPassword("123");
+            admin.setIsActive(true);
+            userService.save(admin);
+        }
 
         for (int i = 0; i < 10; i++) {
             Category category = new Category();
             category.setCategoryName(faker.book().genre());
             categoryService.save(category);
-            
-            for (int j = 0; j < 5; j++) {
+    
+            for (int j = 0; j <1; j++) {
                 Product product = new Product();
                 product.setName(faker.commerce().productName());
                 product.setPrice((long)(faker.number().numberBetween(10000,1000000)));
@@ -54,17 +62,6 @@ public class AppInit implements ApplicationRunner {
             user.setUsername(faker.name().username());
             user.setPassword(faker.internet().password());
             userService.save(user);
-
-        User admin = new User();
-        if (userService.findByUsername("admin").isEmpty()) {
-            admin.setFirstName(faker.name().firstName());
-            admin.setLastName(faker.name().lastName());   
-            admin.setRole(UserRole.MODERATOR);
-            admin.setUsername("admin");
-            admin.setPassword("123");
-            admin.setIsActive(true);
-            userService.save(admin);
-        }
 
         if (userService.findByUsername("seller").isEmpty()) {
             User seller = new User();
@@ -85,19 +82,5 @@ public class AppInit implements ApplicationRunner {
         details.setPhone1("+99897788888");
         companyDetailsService.save(details);
 
-        for(int i=0;i<10;i++){
-        Orders order = new Orders();
-        order.setFirstName(faker.name().firstName());
-        order.setLastName(faker.name().lastName());
-        order.setPhoneNumber(faker.phoneNumber().cellPhone());
-
-        OrderStatus[] statuses = OrderStatus.values();
-        int randomIndex = faker.random().nextInt(statuses.length);
-        OrderStatus randomStatus = statuses[randomIndex];
-        order.setStatus(randomStatus);
-
-        order.setModifiedBy(admin);
-        orderService.save(order);
-        }
         }
     }

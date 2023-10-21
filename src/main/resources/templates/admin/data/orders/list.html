@@ -43,17 +43,15 @@
                     <th>NAME</th>
                     <th>PHONE</th>
                     <th>STATUS</th>
-                    <th>ORDER ITEMS</th>
                     <th>MODIFIED BY</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="item: ${orders}">
                     <td scope="row" th:text="${item.orderId}"></td>
-                    <td th:text="${item.firstName} + ' ' + ${item.lastName}"></td>
+                    <td ><a name="" th:href="@{/admin/data/orders/edit(id=${item.orderId})}" th:text="${item.firstName} + ' ' + ${item.lastName}"></a></td>
                     <td th:text="${item.phoneNumber}"></td>
                     <td th:text="${item.status}"></td>  
-                    <td><a name="" class="btn btn-primary" th:href="@{/admin/data/orders/edit(id=${item.orderId})}" role="button">Order Items</a></td>  
                     <td th:text="${item.modifiedBy.firstName} + ' ' + ${item.modifiedBy.lastName}" ></td>
                 </tr>
                 </tbody>
