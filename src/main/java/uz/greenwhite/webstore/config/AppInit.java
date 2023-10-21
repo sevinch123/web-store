@@ -20,8 +20,6 @@ public class AppInit implements ApplicationRunner {
 
     private final ProductService productService;
     private final CompanyDetailsService companyDetailsService;
-    private final OrderService orderService;
-    private final OrderItemService orderItemService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
