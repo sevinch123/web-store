@@ -7,8 +7,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -53,16 +51,7 @@ public class SecurityConfiguration {
                         form -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/")
-                                .successHandler((request, response, authentication) -> {
-                                    if (authentication.getPrincipal() instanceof User user) {
-                                        if (user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_" + UserRole.MODERATOR.name()))) {
-                                            response.sendRedirect("/admin");
-                                        } else {
-                                            response.sendRedirect("/admin");
-                                        }
-                                    }
-                                })
+                                .defaultSuccessUrl("/admin")
                                 .permitAll()
                 ).logout(
                         logout -> logout

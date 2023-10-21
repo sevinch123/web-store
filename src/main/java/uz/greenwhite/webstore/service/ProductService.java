@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import uz.greenwhite.webstore.entity.Category;
 import uz.greenwhite.webstore.entity.Product;
 import uz.greenwhite.webstore.repository.ProductRepository;
 
@@ -41,7 +42,6 @@ public class ProductService {
     public List<Product> getByPriceBetweenOrderByPriceAsc(Long minPrice, Long maxPrice,Pageable pageable){
         return repository.findByPriceBetweenOrderByPriceAsc(minPrice,maxPrice);
     } 
-    //
 
     public List<Product> getAllByCategoryAndPriceGreaterThanOrderByPriceDesc(Long categoryId,Long price,Pageable pageable){
         return repository.findAllByCategoryAndPriceGreaterThanOrderByPriceDesc(categoryService.getById(categoryId),price);
@@ -89,7 +89,7 @@ public class ProductService {
 
     public List<Product> getByPriceBetween(Long minPrice, Long maxPrice,Pageable pageable){
         return repository.findByPriceBetween(minPrice,maxPrice);
-    } 
+    }
 
     public Page<Product> getAll(Pageable pageable) {
         return repository.findAll(pageable);
@@ -100,8 +100,8 @@ public class ProductService {
     public Page<Product> getAllByOrderByPriceDesc(Pageable pageable) {
         return repository.findAllByOrderByPriceDesc(pageable);
     }
-    public List<Product> getByCategory(Long categoryId,Pageable pageable) {
-        return repository.findAllByCategory(categoryService.getById(categoryId));
+    public List<Product> getByCategory(Category category) {
+        return repository.findAllByCategory(category);
     }
     public List<Product> getByCategoryOrderByPriceAsc(Long categoryId,Pageable pageable) {
         return repository.findAllByCategoryOrderByPriceAsc(categoryService.getById(categoryId));

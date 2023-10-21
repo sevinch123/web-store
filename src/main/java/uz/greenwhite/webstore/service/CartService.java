@@ -29,14 +29,14 @@ public class CartService {
     }
 
     public Cart save(Cart cart) {
-        if(!isExist(cart))
+        if(!isExist(cart) && cart.getProduct() != null)
             return repository.save(cart);
 
         return cart;
     }
 
     public Cart update(Cart cart) {
-        if(isExist(cart))
+        if(isExist(cart) && cart.getCount() > 0 && cart.getCount() <= cart.getProduct().getQuantity())
             return repository.save(cart);
 
         return cart;
