@@ -28,8 +28,8 @@ public class OrderItemService {
     }
 
     public OrderItem save(OrderItem orderItem) {
-        if (orderItem.getOrderItemId() != null)
-            throw new RuntimeException("Id should be null");
+//        if (orderItem.getOrderItemId() != null)
+//            throw new RuntimeException("Id should be null");
 
         return repository.save(orderItem);
     }

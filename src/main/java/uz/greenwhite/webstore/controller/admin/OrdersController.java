@@ -69,8 +69,12 @@ public class OrdersController {
     }
 
     @PostMapping("/edit")
-    public String editOrder(@ModelAttribute Orders orders) {
-        service.update(orders);
+    public String editOrder(@ModelAttribute Orders orders, Principal principal) {
+        User user = userService.findByUsername(principal.getName()).orElse(null);
+        if(user != null) {
+            orders.setModifiedBy(user);
+            service.update(orders);
+        }
         return "redirect:/admin/data/orders";
     }
 
