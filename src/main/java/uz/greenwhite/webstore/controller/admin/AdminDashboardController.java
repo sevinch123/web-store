@@ -1,11 +1,11 @@
 package uz.greenwhite.webstore.controller.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.security.core.Authentication;
 import uz.greenwhite.webstore.entity.User;
 import uz.greenwhite.webstore.service.UserService;
 
