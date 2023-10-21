@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import uz.greenwhite.webstore.dto.CartDto;
 import uz.greenwhite.webstore.entity.*;
 import uz.greenwhite.webstore.service.*;
 import org.springframework.ui.Model;
@@ -56,39 +57,22 @@ public class ClientController {
         long elements = page.getTotalElements();
         model.addAttribute("categories", page);
         model.addAttribute("elements", elements);
-        model.addAttribute("carts", cartService.getAllByToken(getAndSetToken(request, response)));
 
 
 
-        String tokenName = "session_token";
-        String tokenValue = null;
-        boolean session = false;
-
-        if (request.getCookies() != null) {
-            for (Cookie cookie : request.getCookies()) {
-                if (cookie.getName().equals(tokenName)) {
-                    tokenValue = cookie.getValue();
-                    session = true;
-                    break;
-                }
-            }
-        }
-
-        if (!session) {
-            tokenValue = encoder.encode(String.valueOf(Date.from(Instant.now()).getTime()));
-            response.addCookie(new Cookie(tokenName, tokenValue));
-        }
-
-        model.addAttribute("carts", cartService.getAllByToken(tokenValue));
+        CartDto carts = new CartDto();
+        ArrayList<Cart> cartArrayList = new ArrayList<>(cartService.getAllByToken(getAndSetToken(request, response)));
+        carts.setCartList(cartArrayList);
+        model.addAttribute("carts", carts);
         Page<CompanyDetails> detailsPage = detailsService.getAll(pageable);
         model.addAttribute("details", detailsPage);
         return "/cart";
     }
 
     @PostMapping("/cart")
-    public String updateCart(@ModelAttribute(name = "carts") ArrayList<Cart> carts) {
+    public String updateCart(@ModelAttribute(name = "carts") CartDto carts) {
         if(carts != null) {
-            for(Cart cart: carts) {
+            for(Cart cart: carts.getCartList()) {
                 cartService.update(cart);
             }
         }
@@ -132,13 +116,10 @@ public class ClientController {
 
     @GetMapping("/product/{productName}-{productId}")
     public String detailController(@PathVariable String productName, @PathVariable Long productId, Model model, Pageable pageable) {
-        Page<Category> page = categoryService.getAll(pageable);
-        //long elements = page.getTotalElements();
         Product productById = productService.getById(productId);
         if (productById == null) {
             return "error";
         }
-        //model.addAttribute("elements", elements);
         model.addAttribute("product", productById);
         return "detail";
     }
@@ -162,7 +143,7 @@ public class ClientController {
             else if(productFrom==null&&productTo!=null&&productOrder==1)model.addAttribute("products",productService.getAllByCategoryAndPriceLessThanOrderByPriceAsc(categoryId,productTo,null));
             else if(productFrom!=null&&productTo!=null&&productOrder==1)model.addAttribute("products",productService.getByCategoryAndPriceBetweenOrderByPriceAsc(categoryId,productFrom,productTo,null));
            
-            else if(productOrder==null)model.addAttribute("products", productService.getByCategory(categoryId,null));
+            else if(productOrder==null)model.addAttribute("products", productService.getByCategory(categoryService.getById(categoryId)));
             else if(productOrder==1)model.addAttribute("products",productService.getByCategoryOrderByPriceAsc(categoryId,null));
             else if(productOrder==0)model.addAttribute("products",productService.getByCategoryOrderByPriceDesc(categoryId, null));
         } else { 
