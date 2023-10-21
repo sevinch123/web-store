@@ -9,7 +9,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import uz.greenwhite.webstore.entity.Category;
 import uz.greenwhite.webstore.service.CategoryService;
+import org.springframework.security.core.Authentication;
+import uz.greenwhite.webstore.entity.User;
+import uz.greenwhite.webstore.service.UserService;
 
+import java.security.Principal;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -19,11 +23,14 @@ public class CategoryController {
 
     @Autowired
     private CategoryService service;
-
+    @Autowired
+    private UserService userService;
 
     @GetMapping()
-    public String listPage(Model model, Pageable pageable) {
+    public String listPage(Model model, Principal principal, Pageable pageable) {
         model.addAttribute("categories", service.getAll(pageable));
+        Optional<User> data = userService.findByUsername(principal.getName());
+        model.addAttribute("name", data.isPresent() ? data.get().getFirstName() : "User");
         return "/admin/data/category/list";
     }
 
@@ -34,7 +41,9 @@ public class CategoryController {
     }
 
     @GetMapping("/add")
-    public String addPage(Model model) {
+    public String addPage(Model model, Principal principal) {
+        Optional<User> data = userService.findByUsername(principal.getName());
+        model.addAttribute("name", data.isPresent() ? data.get().getFirstName() : "User");
         model.addAttribute("category", new Category());
         return "/admin/data/category/add";
     }
@@ -46,7 +55,9 @@ public class CategoryController {
     }
 
     @GetMapping("/edit")
-    public String editPage(Model model, @RequestParam("id") Long id) {
+    public String editPage(Model model, @RequestParam("id") Long id, Principal principal) {
+        Optional<User> data = userService.findByUsername(principal.getName());
+        model.addAttribute("name", data.isPresent() ? data.get().getFirstName() : "User");
         model.addAttribute("category", service.getById(id));
         return "/admin/data/category/add";
     }
