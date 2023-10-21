@@ -70,11 +70,12 @@ public class OrderService {
         order.setStatus(OrderStatus.NEW_ORDER);
         if(carts.isEmpty())
             return;
-
+        save(order);
         for(Cart cart: carts) {
             item.setOrders(order);
             item.setQuantity(cart.getCount());
             item.setProduct(cart.getProduct());
+            cartService.delete(cart);
             orderItemService.save(item);
         }
 

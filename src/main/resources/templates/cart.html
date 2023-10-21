@@ -199,7 +199,7 @@
 <!-- Cart Start -->
 <form
     method="post"
-    th:action="@{/cart}"
+    th:action="@{/cart/update}"
     th:object="${carts}"
 >
     <fieldset>
@@ -230,13 +230,6 @@
                                             <i class="fa fa-minus"></i>
                                         </button>
                                     </div>
-<!--                                    <input type="text" id="count" name="count "-->
-<!--                                           class="form-control form-control-sm bg-secondary border-0 text-center"-->
-<!--                                           th:value="${item.count}" th:field="*{cartList[__${itemStat.index}__].count}">-->
-<!--                                    <input type="hidden" id="token" name="token "-->
-<!--                                           class="form-control form-control-sm bg-secondary border-0 text-center"-->
-<!--                                           th:value="${item.token}" th:field="*{cartList[__${itemStat.index}__].token}">-->
-
                                     <input type="text" id="count" name="count"
                                            class="form-control form-control-sm bg-secondary border-0 text-center"
                                            th:value="${item.count}" th:field="*{cartList[__${itemStat.index}__].count}" />

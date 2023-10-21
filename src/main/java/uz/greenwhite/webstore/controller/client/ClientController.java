@@ -69,13 +69,14 @@ public class ClientController {
         return "/cart";
     }
 
-    @PostMapping("/cart")
-    public String updateCart(@ModelAttribute(name = "carts") CartDto carts) {
-        if(carts != null) {
+    @PostMapping("/cart/update")
+    public String updateCart(@ModelAttribute(name = "carts") CartDto carts, Model model) {
+        if(carts.getCartList() != null) {
             for(Cart cart: carts.getCartList()) {
                 cartService.update(cart);
             }
         }
+        model.addAttribute("carts", carts);
 
         return "redirect:/cart";
     }
@@ -189,9 +190,9 @@ public class ClientController {
     }
 
     @PostMapping("/checkout")
-    public String placeOrder(@ModelAttribute(name = "order") Orders order,  HttpServletRequest request) {
+    public String placeOrder(@ModelAttribute(name = "order") Orders order, @ModelAttribute(name = "carts") CartDto carts, Model model, HttpServletRequest request) {
         orderService.saveNewOrder(order, Objects.requireNonNull(CookieUtil.getCookie("session_token", request)).getValue());
-
+        updateCart(carts, model);
         return "redirect:/shop";
     }
 

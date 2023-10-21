@@ -32,6 +32,7 @@ public class Product {
 
     private Boolean isActive;
 
+    @Column(length = 500)
     private String description;
 
     @Transient
