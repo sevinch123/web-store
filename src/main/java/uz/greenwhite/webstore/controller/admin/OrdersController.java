@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import uz.greenwhite.webstore.entity.Orders;
 import uz.greenwhite.webstore.enums.OrderStatus;
-import uz.greenwhite.webstore.service.OrderService;
+import uz.greenwhite.webstore.service.*;
 import uz.greenwhite.webstore.util.CookieUtil;
 
 import java.util.Objects;
@@ -20,6 +20,7 @@ import java.util.Objects;
 public class OrdersController {
 
     private final OrderService service;
+    private final OrderItemService orderItemService;
 
     @GetMapping()
     public String listPage(@RequestParam(name = "status", required = false) OrderStatus orderStatus,@RequestParam(name = "filterOrders", required = false) Long filterOrders,Model model, Pageable pageable) {
@@ -41,7 +42,7 @@ public class OrdersController {
     @GetMapping("/add")
     public String addPage(Model model) {
         model.addAttribute("orders", new Orders());
-        return "/admin/data/orders/add";
+        return "/admin/data/orders/edit";
     }
 
     @PostMapping("/add")
@@ -53,7 +54,8 @@ public class OrdersController {
     @GetMapping("/edit")
     public String editPage(Model model, @RequestParam("id") Long id) {
         model.addAttribute("orders", service.getById(id));
-        return "/admin/data/orders/add";
+        model.addAttribute("orderItems",orderItemService.getAllByOrders(id,null));
+        return "/admin/data/orders/edit";
     }
 
     @PostMapping("/edit")

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{admin/commons::head}"></head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <!-- Navbar -->
+    <div th:replace="~{admin/commons::header}"></div>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside th:replace="~{admin/commons::aside}"></aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <!-- /.content-wrapper -->
+    <div class="content-wrapper py-2">
+        <div class="container">
+            <h3 class="text-center">Order Page</h3>
+            <table class="table table-bordered table-inverse mt-3 table-responsive-sm">
+                <thead class="thead-inverse">
+                <thead class="thead-inverse mt-3 ">
+                    <tr>
+                        <th>FIRST NAME</th>
+                        <th>LAST NAME</th>
+                        <th>PHONE</th>
+                        <th>ADDRESS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td th:text="${orders.firstName}"></td>
+                        <td th:text="${orders.lastName}"></td>
+                        <td th:text="${orders.phoneNumber}"></td>
+                        <td th:text="${orders.address}"></td>
+                    </tr>
+                </tbody>
+            </table>
+             <h6>Comment</h6>
+                <textarea class="form-control input-sm" rows="1" readonly th:text="${orders.comment}"></textarea>
+            <p></p>
+            <form method="post"
+					      th:action="@{/admin/data/orders/edit}"
+					      th:object="${orders}">
+						<div class="form-group" data-style="btn-primary" data-width="fit"
+						     th:if="${orders.orderId} != null">
+							 <h6>Order Status</h6>
+                            <select th:field="*{status}" class="form-control" aria-label="Default select example">
+                                <option th:value="NEW_ORDER" th:selected="${orders.status == 'NEW_ORDER'}">NEW_ORDER</option>  
+                                <option th:value="WAITING" th:selected="${orders.status == 'WAITING'}">WAITING</option>  
+                                <option th:value="SUCCESS" th:selected="${orders.status == 'SUCCESS'}">SUCCESS</option>  
+                                <option th:value="CANCELED" th:selected="${orders.status == 'CANCELED'}">CANCELED</option>  
+                            </select>                            
+						</div>
+                        <input type="hidden" th:if="${orders.orderId}" th:name="orderId" th:value="${orders.orderId}" />
+                        <input type="hidden" th:if="${orders.firstName}" th:name="firstName" th:value="${orders.firstName}" />
+                        <input type="hidden" th:if="${orders.lastName}" th:name="lastName" th:value="${orders.lastName}" />
+                        <input type="hidden" th:if="${orders.phoneNumber}" th:name="phoneNumber" th:value="${orders.phoneNumber}" />
+                        <input type="hidden" th:if="${orders.address}" th:name="address" th:value="${orders.address}" />
+                        <input type="hidden" th:if="${orders.comment}" th:name="comment" th:value="${orders.comment}" />
+                        <input type="hidden" th:if="${orders.modifiedBy.userId}" th:name="modifiedBy.userId" th:value="${orders.modifiedBy.userId}" />
+
+                        <div class="form-group" style="text-align: right;">
+                            <a class="btn btn-secondary" th:href="@{/admin/data/orders}" role="button">Go
+                            back</a>
+                            <button type="submit" class="btn btn-success">Save</button> 
+                       </div>
+            </form>   
+            <div class="form-group" style="text-align: left;">
+                <h4>Total cost: <b th:text="${#aggregates.sum(orderItems.![product.price*(quantity)])}"></b></h4>  
+            </div> 
+           <h3 class="text-center">Product List</h3>
+            <table class="table table-bordered table-inverse mt-3 table-responsive-sm">
+                <thead class="thead-inverse">
+                <thead class="thead-inverse mt-3 ">
+                    <tr>
+                        <th>PHOTO</th>
+                        <th>PRODUCT NAME</th>
+                        <th>PRICE</th>
+                        <th>QUANTITY</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item: ${orderItems}">
+                        <td><img th:src="@{|/admin/data/product/image/${item.product.productId}|}" height="50px" width="auto" alt="rasm"></td>
+                        <td><a name="" th:href="@{/product/{name}-{id}(name=${item.product.name}, id=${item.product.productId})}" th:text="${item.product.name}"></a></td>                        <td th:text="${item.product.price}"></td>
+                        <td th:text="${item.quantity}"></td>
+                    </tr>
+                </tbody>
+            </table> 
+        </div>
+    </div>
+    <!-- Main Footer -->
+    <footer th:replace="~{admin/commons::footer}"></footer>
+</div>
+
+</div>
+<th:block th:replace="~{admin/commons::scripts}"></th:block>
+</body>
+</html>
