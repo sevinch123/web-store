@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import uz.greenwhite.webstore.entity.User;
 import uz.greenwhite.webstore.enums.UserRole;
 import uz.greenwhite.webstore.service.UserService;
-
+import org.springframework.security.core.Authentication;
+import java.security.Principal;
+import java.util.Optional;
 @Controller
 @AllArgsConstructor
 @RequestMapping("/admin/data/seller")
@@ -17,13 +19,17 @@ public class SellerController {
     private final UserService service;
 
     @GetMapping()
-    public String listPage(Model model, Pageable pageable) {
+    public String listPage(Model model , Principal principal, Pageable pageable) {
+        Optional<User> data = service.findByUsername(principal.getName());
+        model.addAttribute("name", data.isPresent() ? data.get().getFirstName() : "User");
         model.addAttribute("seller", service.getAll(pageable));
         return "/admin/data/seller/list";
     }
 
     @GetMapping("/add")
-    public String addPage(Model model) {
+    public String addPage(Model model, Principal principal) {
+        Optional<User> data = service.findByUsername(principal.getName());
+        model.addAttribute("name", data.isPresent() ? data.get().getFirstName() : "User");
         model.addAttribute("seller", new User());
         model.addAttribute("ROLE_SELLER", UserRole.SELLER);
         model.addAttribute("ROLE_MODERATOR", UserRole.MODERATOR);
@@ -37,7 +43,9 @@ public class SellerController {
     }
 
     @GetMapping("/edit")
-    public String editPage(Model model, @RequestParam("id") Long id) {
+    public String editPage(Model model, Principal principal, @RequestParam("id") Long id) {
+        Optional<User> data = service.findByUsername(principal.getName());
+        model.addAttribute("name", data.isPresent() ? data.get().getFirstName() : "User");
         User seller = service.getById(id);
         model.addAttribute("seller", seller);
         return "/admin/data/seller/add";

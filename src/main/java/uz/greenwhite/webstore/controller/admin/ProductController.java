@@ -15,6 +15,12 @@ import uz.greenwhite.webstore.service.ProductService;
 import uz.greenwhite.webstore.util.ImageUtil;
 
 import java.io.*;
+import org.springframework.security.core.Authentication;
+import uz.greenwhite.webstore.entity.User;
+import uz.greenwhite.webstore.service.UserService;
+
+import java.security.Principal;
+import java.util.Optional;
 
 
 @Controller
@@ -25,16 +31,21 @@ public class ProductController {
     private final ProductService service;
 
     private final CategoryService categoryService;
+    private final UserService userService;
 
     @GetMapping()
-    public String listPage(Model model, Pageable pageable) {
+    public String listPage(Model model , Principal principal, Pageable pageable) {
+        Optional<User> data = userService.findByUsername(principal.getName());
+        model.addAttribute("name", data.isPresent() ? data.get().getFirstName() : "User");
         model.addAttribute("products", service.getAll(pageable));
         return "/admin/data/product/list";
     }
 
 
     @GetMapping("/add")
-    public String addPage(Model model, Pageable pageable) {
+    public String addPage(Model model, Principal principal, Pageable pageable) {
+        Optional<User> data = userService.findByUsername(principal.getName());
+        model.addAttribute("name", data.isPresent() ? data.get().getFirstName() : "User");
         model.addAttribute("product", new Product());
         model.addAttribute("categories", categoryService.getAll(pageable));
         return "/admin/data/product/add";
@@ -54,7 +65,9 @@ public class ProductController {
     }
 
     @GetMapping("/edit")
-    public String editPage(Model model, @RequestParam("id") Long id, Pageable pageable) {
+    public String editPage(Model model, Principal principal, @RequestParam("id") Long id, Pageable pageable) {
+        Optional<User> data = userService.findByUsername(principal.getName());
+        model.addAttribute("name", data.isPresent() ? data.get().getFirstName() : "User");
         model.addAttribute("product", service.getById(id));
         model.addAttribute("categories", categoryService.getAll(pageable));
         return "admin/data/product/add";
