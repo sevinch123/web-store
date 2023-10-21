@@ -9,6 +9,7 @@ import uz.greenwhite.webstore.entity.*;
 import uz.greenwhite.webstore.enums.OrderStatus;
 import uz.greenwhite.webstore.enums.UserRole;
 import uz.greenwhite.webstore.service.*;
+import com.github.javafaker.Faker;
 
 @Component
 @AllArgsConstructor
@@ -19,41 +20,15 @@ public class AppInit implements ApplicationRunner {
 
     private final ProductService productService;
     private final CompanyDetailsService companyDetailsService;
-    private final OrderService orderService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        Category category = new Category();
-        category.setCategoryName("Texnika");
-        categoryService.save(category);
-        category.setCategoryId(null);
-        category.setCategoryName("Mebel");
-        category.setIsActive(false);
-        categoryService.save(category);
-
-        Product product = new Product();
-        product.setPhoto("1.jpeg");
-        product.setIsActive(true);
-        product.setQuantity(100);
-        product.setName("Samsung");
-        product.setPrice(1000L);
-        product.setDescription("Made in <b> North Korea )</b>");
-        product.setCategory(category);
-        productService.save(product);
-
-        Product product2 = new Product();
-        product2.setIsActive(true);
-        product2.setQuantity(0);
-        product2.setName("Webstore");
-        product2.setPrice(5000L);
-        product2.setDescription("Made in <i> Green White )</i>");
-        product2.setCategory(category);
-        productService.save(product2);
+        Faker faker =new Faker();
 
         User admin = new User();
         if (userService.findByUsername("admin").isEmpty()) {
-            admin.setFirstName("Ilon");
-            admin.setLastName("Mask");
+            admin.setFirstName(faker.name().firstName());
+            admin.setLastName(faker.name().lastName());   
             admin.setRole(UserRole.MODERATOR);
             admin.setUsername("admin");
             admin.setPassword("123");
@@ -61,10 +36,35 @@ public class AppInit implements ApplicationRunner {
             userService.save(admin);
         }
 
+        for (int i = 0; i < 10; i++) {
+            Category category = new Category();
+            category.setCategoryName(faker.book().genre());
+            categoryService.save(category);
+    
+            for (int j = 0; j <1; j++) {
+                Product product = new Product();
+                product.setName(faker.commerce().productName());
+                product.setPrice((long)(faker.number().numberBetween(10000,1000000)));
+                product.setCategory(category); 
+                product.setPhoto("jpg");
+                product.setQuantity( faker.number().randomDigit());
+                product.setDescription(faker.lorem().paragraph());
+                productService.save(product);
+            }
+        }
+       
+            User user = new User();
+            user.setFirstName(faker.name().firstName());
+            user.setLastName(faker.name().lastName());    
+            user.setRole(UserRole.SELLER);
+            user.setUsername(faker.name().username());
+            user.setPassword(faker.internet().password());
+            userService.save(user);
+
         if (userService.findByUsername("seller").isEmpty()) {
             User seller = new User();
-            seller.setFirstName("Stive");
-            seller.setLastName("Jobs");
+            seller.setFirstName(faker.name().firstName());
+            seller.setLastName(faker.name().lastName()); 
             seller.setRole(UserRole.SELLER);
             seller.setUsername("seller");
             seller.setPassword("123");
@@ -80,41 +80,5 @@ public class AppInit implements ApplicationRunner {
         details.setPhone1("+99897788888");
         companyDetailsService.save(details);
 
-        Orders order = new Orders();
-        order.setComment("asda");
-        order.setStatus(OrderStatus.NEW_ORDER);
-        order.setFirstName("Abdukarim");
-        order.setLastName("========");
-        order.setModifiedBy(admin);
-        order.setPhoneNumber("1242112");
-        orderService.save(order);
-
-        Orders order1 = new Orders();
-        order1.setComment("asda");
-        order1.setStatus(OrderStatus.WAITING);
-        order1.setFirstName("Afzalbek");
-        order1.setLastName("Aziz");
-        order1.setModifiedBy(admin);
-        order1.setPhoneNumber("1242112");
-        orderService.save(order1);
-
-        Orders order2 = new Orders();
-        order2.setComment("asda");
-        order2.setStatus(OrderStatus.SUCCESS);
-        order2.setFirstName("Doston");
-        order2.setLastName("Aziz");
-        order2.setModifiedBy(admin);
-        order2.setPhoneNumber("1242112");
-        orderService.save(order2);
-
-        Orders order3 = new Orders();
-        order3.setComment("asda");
-        order3.setStatus(OrderStatus.NEW_ORDER);
-        order3.setFirstName("Shaxrizoda");
-        order3.setLastName("Aziz");
-        order3.setModifiedBy(admin);
-        order3.setPhoneNumber("1000000");
-        orderService.save(order3);
-
+        }
     }
-}
