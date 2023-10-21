@@ -41,7 +41,6 @@ public class ProductService {
     public List<Product> getByPriceBetweenOrderByPriceAsc(Long minPrice, Long maxPrice,Pageable pageable){
         return repository.findByPriceBetweenOrderByPriceAsc(minPrice,maxPrice);
     } 
-    //
 
     public List<Product> getAllByCategoryAndPriceGreaterThanOrderByPriceDesc(Long categoryId,Long price,Pageable pageable){
         return repository.findAllByCategoryAndPriceGreaterThanOrderByPriceDesc(categoryService.getById(categoryId),price);

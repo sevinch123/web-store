@@ -5,12 +5,19 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import uz.greenwhite.webstore.entity.OrderItem;
-import uz.greenwhite.webstore.repository.OrderItemRepository;
+import uz.greenwhite.webstore.service.*;
+import uz.greenwhite.webstore.repository.*;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class OrderItemService {
     private final OrderItemRepository repository;
+    private final OrderRepository orderRepository;
+
+    public List<OrderItem> getAllByOrders(Long orderId,Pageable pageable) {
+        return repository.findAllByOrders(orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("Not found")));
+    }
 
     public Page<OrderItem> getAll(Pageable pageable) {
         return repository.findAll(pageable);
